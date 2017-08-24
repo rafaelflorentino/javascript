@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Luz</title>
+	<link rel="stylesheet" href="css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Kalam:400,300,700|Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic|Open+Sans+Condensed:300,300italic,700' rel='stylesheet' type='text/css'>	
+
+	<script src="js/scripts.js"></script>
+	<style type="text/css"></style>
+
+	<script type="text/javascript">
+	
+
+
+// INÌCIO COOKIES
+
+	function writeCookie(name, value, days){
+		//por default não existe expiração, ou seja o cookie é temporario
+		var expires="";
+
+		//Especifica o número de dias para guaradar o cookie
+		if(days){
+			var date = new Date();
+			date.setTime(date.getTime() + (days *24 * 60 * 60 * 1000));
+			expires= "; expires="+date.toGMTString();
+		}
+
+		if(value !="" && value != null && value !="null"){
+			//Define o cookie com nome, o valor e a dara de expiração
+			document.cookie = name + "="+ value + expires+ "; path=/"
+			
+		}
+	} 
+
+	function readCookie(name){
+		//Encontra o cookie especificado e retorna o seu valor
+		var searchName = name +"=";
+		var cookies = document.cookie.split(";");
+
+		for(var i = 0; i<cookies.length; i++){
+			var c = cookies[i];
+			while(c.charAt(0)==' ')
+				c = c.substring(1, c.length);
+			if(c.indexOf(searchName)==0)
+				return c.substring(searchName.length, c.length);
+		}
+		return null;
+	}
+
+	function ereaseCokie(name){
+		//excluir cookie
+		writeCookie(name,"", -1);
+	}
+
+// FIM COOKIES
+
+
+	function desLigar(){
+		document.getElementById('lampada').src = "images/lampada_desligada.png";
+	}
+
+	function apresentaHoras(){
+		var agora = new Date();
+		var horas = agora.getHours() + " : "+ agora.getMinutes()+ ":"+agora.getSeconds();
+		document.getElementById("horas").innerHTML = horas;
+	}	
+	function f(){ return false; }
+	function um(){ alert("Um"); }
+	function dois(){ alert("Dois"); }	
+
+// ASSIM QUE CARREGAR A PAGINA
+
+	window.onload = function(){
+					
+		document.getElementById('lampada').onclick= ligar;
+		setInterval(apresentaHoras, 1000);// mudar a hora no site a cada segundo
+
+		// cookie
+		var nome = readCookie("nome");// verifica se nome ja esta salvo no cookie
+		if(nome == null){// se ainda não estiver, pede para inserir o nome
+			nome = prompt("qual e o seu nome");
+			writeCookie("nome", nome, 1);//chama função que escreve no coolie			
+		}
+
+
+		function ligar(){
+			document.getElementById('lampada').src = "images/lampada_ligada.png";
+			//setTimeout("desLigar()", 3000);
+			//setTimeout(desLigar, 3000);
+
+			var nome = readCookie("nome");
+			if(nome != null){
+				alert("É bom estar com você "+nome);		
+			}
+
+
+			var chave = setTimeout(desLigar, 3000);
+			//clearTimeout(chave);
+		} 
+
+
+		// Manipuladores de evento DOM nivel 0
+
+		var btn = document.getElementById("btn-luz");
+		var btn2 = document.getElementById("btn-luz2");
+		var div = document.getElementById("primeira");
+		var inputTexto = document.getElementById("inputTexto");
+
+		//document.getElementById("inputTexto").focus();// pagina inicia com foco no campo imput
+
+		//btn.onclick = function (){return false;}// desatrela o efeito padrão do elemento, link não muda de pagina
+	    /*btn.onclick = function (evt){// evt para pegar as informacoes do evento no firefox e outros navegadores
+			//um();
+			//dois();			
+			alert(window.event.type);// verificar o tipo de evento, IE, Crome
+			alert(evt.type);// nos demais navegadores
+
+			var evento = evt ? evt : window.event;//solução para variedade de navegadores
+			alert(evento.type);// assim e possivel acessar event independente de browsers
+			alert("X = "+evento.screenX+" Y = "+evento.screenY);
+			//e.preventdefault()
+		}*/
+		
+
+			// this fora representa a janela window
+		btn.onclick = function (e){	
+			alert("iD= "+this.id); // this dentro representa btn		
+			alert("cliclou no Botão");
+			var evt = 	e ? e : window.event;// solução para diferentes navegadores
+
+			if(evt.stopPropagation){
+				evt.stopPropagation();//interromper a proxima função
+			}else{
+				evt.cancelBubble() = true;//interromper a proxima função
+			}
+		}
+
+		div.onclick = function (e){ alert("Div"); }// Quando clicar na div
+		document.onclick = function(){ /*alert("Document"); */}// Quando clicar em qualquer lugar do site, que nao tenha stopPropagation 
+
+		document.getElementById("inputTexto").onblur = function(e){// onblur quando clicar fora do input
+		 	alert("valor do input: "+this.value);
+		 }
+
+		btn2.onclick = function (){return false;}// impede que mude de página por causa do link
+
+		// Manipuladores de evento DOM nivel 2
+
+		var btn2 = document.getElementById("btn-luz2");	
+		btn2.addEventListener("click", um, false);
+		btn2.addEventListener("click", dois, false);
+		//btn2.removeEventListener("click", um, false);// remover evento		
+
+	}
+
+
+
+
+	</script>
+
+</head>
+<body>
+	<div class="container luz" id="luz">
+		<div class="lampada">
+			<h1>Tive Uma Ideia</h1>	
+			<img id="lampada" src="images/lampada_desligada.png" alt="">
+			<h1 id="horas">00:00:00</h1>		
+		</div>
+
+
+		<div class="corpo" id="corpo">
+
+			<div class="container-texto">
+			<div id="primeira">
+				<a href="#" class="btn-luz" id="btn-luz">Gerar Ideia</a>
+			</div>
+			<a href="cinema.html" class="btn-luz" id="btn-luz2">Gerar Ideia 2</a>
+
+			<div class="divInput">
+				<input type="text" id="inputTexto">
+			</div>
+				
+				
+				<h1>Tendo Novas Ideias</h1>	
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque!</p>	
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque!</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque!</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque!</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error in soluta quidem, reiciendis voluptate sunt ad eius sit, sapiente repellat consectetur officiis harum assumenda porro tenetur! Ipsa laboriosam aliquid eaque!</p>
+			</div>
+		</div>	
+	</div>	
+</body>
+</html>

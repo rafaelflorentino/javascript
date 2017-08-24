@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>IMC</title>
+	<link rel="stylesheet" href="css/style.css">
+	
+	<script src="js/scripts.js"></script>
+
+	<style type="text/css">
+		/* css */
+	</style>
+
+	<script type="text/javascript">
+		/* js */
+	</script>
+
+</head>
+<body>
+	<div class="container" id="pagina-imc">
+		<header>
+			<img id="imagemImc"  src="images/imc2.gif" alt="">
+		</header>
+		
+		<div class="formulario">
+
+			<form id="formulario" name="formulario" action="" method="post">
+				<fieldset>
+					<legend> Calculo de IMC </legend>				
+					<table id="tabelaImc">
+						<tr>
+							<td><label for="kilos">Kilos:</label></td>
+							<td><input type="text" id="kilos" /></td>
+						</tr>
+						<tr>
+							<td><label for="metros">Metros:</label></td>
+							<td><input type="text" id="metros" /></td>
+						</tr>
+						<tr>
+							<td><label for="centimetros">Centimetros:</label></td>
+							<td><input type="text" id="centimetros" /></td>
+						</tr>
+						<tr>
+							<td><label for="imc">IMC:</label></td>
+							<td><input type="text" id="imc" /></td>
+						</tr>
+						<tr>
+							<!--<td><button id="button" type="submit" >Calcular</button></td>-->
+							<td><a href="#" onclick="calcularImc()">Cadastrar</a></td>	
+						</tr>									
+					</table>
+					<div><p id="mensagem"></p></div>					
+			    </fieldset>	
+			</form>					
+		</div>
+
+		<div class="tabelaValores">
+			<table id="tabelaValoresImc" >					
+				<tr>
+					<td><p class="strong">IMC</p></td>
+					<td><p class="strong">Classificação</p></td>
+				</tr>													
+				<tr>
+					<td><p> < 20</p></td>
+					<td><p>Abaixo do peso</p></td>
+				</tr>
+				<tr>
+					<td><p>20 a 25</p></td>
+					<td><p>Peso ideal</p></td>
+				</tr>
+				<tr>
+					<td><p>25 a 30</p></td>
+					<td><p>Sobrepeso</p></td>
+				</tr>
+				<tr>
+					<td><p>30 a 35</p></td>
+					<td><p>Obesidade Moderada</p></td>
+				</tr>
+				<tr>
+					<td><p>35 a 40</p></td>
+					<td><p>Obesidade Severa</p></td>
+				</tr>
+				<tr>
+					<td><p>40 a 50</p></td>
+					<td><p>Obesidade Morbida</p></td>
+				</tr>
+				<tr>
+					<td><p>> 50</p></td>
+					<td><p>Super Obesidade</p></td>
+				</tr>												
+			</table>						
+		</div>	
+
+		<div class="formulario form-valida">
+
+		<h1>Expressões Regulares</h1>
+
+			<form id="formulario-valida" name="formulario-valida" action="" method="post">
+				<fieldset>
+					<legend>Validação e Formatação </legend>				
+					<table id="tabelaImc">
+						<tr>
+							<td><label for="cpf">CPF:</label></td>
+							<td><input type="text" id="cpf" /></td>
+						</tr>
+						<tr>
+							<td><label for="email">E-mail:</label></td>
+							<td><input type="text" id="email" /></td>
+						</tr>
+						<tr>
+							<td><a href="#" onclick="validar()">Cadastrar</a></td>	
+						</tr>									
+					</table>
+					<div><p id="mensagem"></p></div>					
+			    </fieldset>	
+			</form>					
+		</div>				
+				
+	</div>
+
+</body>
+</html>
+
+

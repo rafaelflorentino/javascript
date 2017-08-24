@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Cinema</title>
+	<link rel="stylesheet" href="css/style.css">
+	
+	<script src="js/scripts.js"></script>
+
+
+	<style type="text/css">
+		
+	</style>
+
+	<script type="text/javascript">
+
+		//true : disponivel, false : indisponivel 
+
+		var poltronas =[false,true,false,true,true,true,false,true,false]
+
+
+		function carregarCadeiras() {
+		   var imagens = document.getElementsByTagName("img");
+		    for (var i = 0 ; i < imagens.length; i++) {
+		    	if(poltronas[i]){
+		    		imagens[i].src = "images/ball_disponivel.jpg";
+		    	}else{
+		    		imagens[i].src = "images/ball_indisponivel.jpg";
+		    	}
+		    	
+		    }
+		   
+		}
+		
+		function selecionarPoltrona() {
+			event.preventDefault();
+
+			var imagens = document.getElementsByTagName("img");
+			 for (var i = 0 ; i < poltronas.length; i++) {
+			 	if(poltronas[i]){
+			 		imagens[i].src = "images/ball_selecionada.jpg";
+
+			 		var quer = confirm("Você quer esta poltrona?");
+			 		if(quer){
+			 			break;
+			 		}else{
+			 			imagens[i].src = "images/ball_disponivel.jpg";
+			 		}
+			 		
+			 	}
+			 }
+		}
+
+		function selecionarPoltronaCasal() {
+			event.preventDefault();
+
+			var imagens = document.getElementsByTagName("img");
+			 for (var i = 0 ; i < poltronas.length; i++) {
+			 	if(poltronas[i] && poltronas[i+1]){
+			 		imagens[i].src = "images/ball_selecionada.jpg";
+			 		imagens[i+1].src = "images/ball_selecionada.jpg";
+
+			 		var quer = confirm("Você quer estas poltronas?");
+			 		if(quer){
+			 			break;
+			 		}else{
+			 			imagens[i].src = "images/ball_disponivel.jpg";
+			 			imagens[i+1].src = "images/ball_disponivel.jpg";
+
+			 		}
+			 		
+			 	}
+			 }
+		}
+
+		window.onload = function(){
+			carregarCadeiras();
+
+			var imagens = document.getElementsByTagName("img");
+
+			for(var i=0; i<imagens.length; i++){
+				imagens[i].onclick = verificarStatus(i);
+			}
+	
+		}			
+
+		function verificarStatus(poltrona){
+			return function(){
+				var src = document.getElementsByTagName("img")[poltrona].src;
+				var msg = "";
+
+				if(src.indexOf("ball_disponivel.jpg") > 0){
+					msg= "Poltrona Disponivel";
+
+				}else if(src.indexOf("ball_indisponivel.jpg") > 0){
+					msg= "Poltrona Indisponivel";
+				}else{
+					msg= "Essa Poltrona e sua";
+				};
+				alert(msg);
+			}
+			
+		}			
+
+
+
+
+	</script>
+
+</head>
+<body><!-- onload="carregarCadeiras();"-->
+	<div class="container" id="cinema">
+		<div id="topo"></div>
+		<div class="cadeiras">
+			<h1>Localizador de Poltronas</h1>
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<img width="81.95" height="95.25" alt="">
+			<a href="" onclick="selecionarPoltrona(event);">Selecionar Poltrona</a>
+			<a href="" onclick="selecionarPoltronaCasal(event);">Selecionar Para Casal</a>
+		</div>
+	
+				
+	</div>
+
+</body>
+</html>
+
+

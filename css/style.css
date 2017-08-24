@@ -1,0 +1,252 @@
+
+@import url(https://fonts.googleapis.com/css?family=Kalam:400,300,700|Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic|Open+Sans+Condensed:300,300italic,700);
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+html {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+q, blockquote {
+  quotes: none;
+}
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+a img {
+  border: none;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+/* Início Página Luz*/
+
+#luz .lampada{
+  text-align: center;
+  background: black;
+  padding: 40px 20px 50px 20px;
+  border-radius: 0px 0px 10px 10px; 
+  /* border-bottom: 1px solid white;    */           
+}
+#luz .lampada h1{
+  font-family: arial;
+  font-size: 27px;
+  margin-bottom: 30px;
+  color: white;
+  line-height: 35px;             
+}
+#luz{
+  background: url(../images/bg_yellow.png);
+  background-size: 100%;
+}
+#luz .corpo{
+  padding: 20px;
+  /*background: #f6b604; */
+}
+#luz .container-texto{
+    margin: 0 auto;
+    max-width: 900px; 
+}
+#luz .container-texto h1{
+    text-align: center;
+    margin-bottom: 35px;
+    color: white;
+    font-family: arial;
+    font-size: 25px;
+    margin-top: 20px; 
+    text-shadow: 0 0 0.4px #868383;    
+}
+#luz .container-texto p{
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: white;
+    font-family: arial;
+    line-height: 23px;
+    text-shadow: 0 0 0.4px #868383;
+    text-indent: 30px;         
+}
+.luz .btn-luz{
+    display: block;
+    padding: 20px;
+    background: white;
+    width: 100px;
+    margin: 0 auto;
+    text-align: center;
+    text-decoration: none;
+    font-family: arial;
+    color: #ea8701;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.luz .btn-luz:hover{
+      background: black;
+}
+.luz .divInput{
+    text-align: center;
+    margin-bottom: 20px;
+}
+.luz #horas{
+    text-align: center;
+    font-size: 30px;
+    color: white;
+    margin-top: 25px;    
+}
+
+/* Fim Página Luz*/
+
+
+/* Início Página Cinema*/
+
+#cinema{
+    margin: 0 auto;
+    max-width: 900px;
+    text-align: center; 
+    padding: 20px;    
+}
+#cinema #topo{
+  background: url("../images/cinema-logo.jpg");
+  max-width: 600px;
+  height: 265px;
+  background-repeat: no-repeat; 
+  margin: 0 auto;
+  margin-bottom: 20px; 
+  background-size: 100%;
+}
+#cinema .cadeiras h1{
+    font-size: 40px;
+    font-family: arial;
+    font-weight: bold;
+    margin-bottom: 40px;
+}
+#cinema .cadeiras a{
+    clear: both;
+    display: block;
+    text-decoration: none;
+    color: white;
+    font-size: 19px;
+    font-family: arial;
+    background: #5f92be;
+    /*background: #1b201a;*/   
+    width: 200px;
+    margin: 0 auto;
+    padding: 15px;
+    margin-top: 30px;
+    border-radius: 25px;
+}
+#cinema .cadeiras a:hover{
+    background:#af0f00;
+}
+
+/* Fim Página Cinema*/
+
+
+/*Início Página IMC*/
+
+    #pagina-imc{
+      margin: 0 auto;
+      max-width: 300px;
+    }
+    #pagina-imc header{
+      max-width: 300px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    #pagina-imc  #imagemImc{
+      width: 100%;
+      border-radius: 10px;      
+    }
+    #pagina-imc .formulario{
+      margin-bottom: 20px;
+    }
+    #pagina-imc fieldset {
+      border: 2px black solid;
+      border-radius: 10px;
+      padding: 20px;
+    } 
+    #pagina-imc #tabelaImc tr td{
+      padding-bottom: 10px;
+    }
+    #pagina-imc .tabelaValores{
+      max-width: 300px;
+    }
+    #pagina-imc #tabelaValoresImc{
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 60px;      
+    } 
+    #pagina-imc #tabelaValoresImc tr td{
+      border: 2px black solid;
+        text-align: center;     
+        padding: 4px 0px;
+    }
+    #pagina-imc .strong{
+      font-weight: bold;
+    }
+
+    #pagina-imc #mensagem{
+      width: 100%;
+      text-align: center;
+    }
+    #pagina-imc .form-valida h1{
+        font-size: 20px;
+        font-family: arial;
+        margin-bottom: 20px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+/*Fim Página IMC*/
+
+
+
+@media only screen and (max-width:600px) {
+  #cinema #topo{
+    height: 230px;
+  }
+}
+    
+
+@media only screen and (max-width:470px) {
+  #cinema #topo{
+    height: 135px;
+  }
+}
+

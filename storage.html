@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Storage</title>
+	<link rel="stylesheet" href="css/style.css">
+
+	<script src="js/scripts.js"></script>
+	<style type="text/css">
+		.container{
+			    padding: 0px 10px;
+		}
+		#gravar, #exibir{
+		    padding: 15px;
+		    background: white;
+		    width: 100px;
+		    margin: 0 auto;
+		    text-align: center;
+		    text-decoration: none;
+		    font-family: arial;
+		    color: #0c0c0c;
+		    font-weight: bold;
+		    margin-bottom: 20px;
+		    border: 1px solid #e2e1e1;
+		    float: left;
+		   			
+		}
+		#exibir{
+			 float: right;
+		}
+		input{
+		    width: 100%;
+		    padding: 9px 0px;
+		    text-indent: 12px;
+		    font-size: 14px;
+		    line-height: 1.42857143;
+		    color: #555555;
+		    background-color: #ffffff;
+		    background-image: none;
+		    border: 1px solid #e2e1e1;
+		    border-radius: 4px;
+		    margin-bottom: 15px;	
+		    margin-top: 15px;		
+		}
+		#storage{
+			max-width: 320px;
+    		margin: 0 auto;
+		    border: 1px solid #d0cdcd;
+		    padding: 16px;  
+		    margin-top: 10px;  		
+		}
+		#dom{
+			    clear: both;
+		}
+		#storage form{
+   					
+		}
+		#storage form h2{
+   			font-size: 20px;	
+   			text-align: center;	
+		}	
+		.espaco{
+			clear: both;
+			display: block;
+		}	
+		#dom{
+			max-width: 320px;
+		    margin: 0 auto;
+		    border: 1px solid #d0cdcd;
+		    padding: 16px;
+		    margin-top: 10px;
+		    text-align: center;
+		}
+		#dom h2{
+			margin-bottom: 20px;
+		}
+		#dom p{
+			margin-top: 15px;
+		}
+		img{
+			margin: 0px 10px;
+		}
+		#cont-table{
+		   max-width: 320px;
+		    margin: 0 auto;
+		    border: 1px solid #d0cdcd;
+		    padding: 16px;
+		    margin-top: 10px;
+		    text-align: center;	
+		    margin-bottom: 15px;
+		   		
+		}
+		#cont-table table{
+		    width: 100%;
+		    max-width: 100%;
+		    margin-bottom: 10px;
+
+		}
+		#cont-table tr{
+			   
+		}
+		#cont-table tr td {
+		    text-align: left;
+		    font-weight: normal;
+		    vertical-align: middle;
+		    border: 1px solid #D2D1D1;
+		    padding: 10px;
+		    text-align: center;	
+		}
+		#cont-table h2{
+			font-size: 20px;
+			margin-bottom: 20px;
+		}
+		#cont-table #listar,#deletar{
+		    padding: 15px;
+		    background: white;
+		    width: 100px;
+		    margin: 0 auto;
+		    text-align: center;
+		    text-decoration: none;
+		    font-family: arial;
+		    color: #0c0c0c;
+		    font-weight: bold;
+		    margin-bottom: 20px;
+		    border: 1px solid #e2e1e1;
+		    float: left;
+		    margin-top: 15px;
+		}
+		#cont-table #deletar{
+	  		float: right;
+		}
+	</style>
+
+	<script type="text/javascript">
+	
+	window.onload = function(){
+		var gravar = document.getElementById("gravar");
+		var exibir = document.getElementById("exibir");
+		var texto = document.getElementById("texto");
+
+		gravar.onclick = function(){
+			localStorage.setItem("meuTexto",texto.value);
+			//document.getElementById('texto').value=''; // resetar input
+			var formSotage = document.getElementById("formStorage");
+			formSotage.reset();//resetar campos formulário
+		}
+		exibir.onclick = function(){
+			document.getElementById('texto').value='';
+			texto.value = localStorage.getItem("meuTexto");
+		}
+
+		// DOM
+
+		//var tit = document.getElementById("tit_id");//pelo id
+		//var tit = document.getElementsByName("tit_name");//pelo name
+		//var tit = document.getElementsByClassName("tit_class");//pela class
+		//var tit = document.getElementsByTagName("h2");//pela tag
+		var tit = document.querySelector("#tit_id");//("ul > li") ou ("p > a")//selector css, um elemento
+		//var tit = document.querySelectorAll("#tit_id");//varios elementos
+		console.log(tit);
+
+
+		tit.innerHTML = "Outro Texto";
+		//tit.style.color= "#0000FF";//DOM HTML API, alterar cor do texto
+		tit.setAttribute("style","color:red");// DOM CORE API
+
+		//var image = document.getElementsByTagName("img")[0];
+		var image = document.querySelectorAll("img")[0];
+		//image.src="images/ball_selecionada.jpg";
+		image.alt="imagem";
+		image.setAttribute("border","6px");
+
+		// DOM IMAGES
+
+		console.log(document.images.length);// quantas imagens tem na página
+
+		var img = document.images;
+		for(var i=0; i<img.length; i++){
+			console.log(img[i].src);
+		}
+		console.log(img[0]);//forma 1
+		console.log(img.item(0));//forma 2
+		console.log(img.namedItem("selecionado"));// forma 3 pelo id da imagem
+
+		// DOM LINKS
+
+		var links = document.links;
+		console.log(links[0]);
+		console.log(links[1]);
+
+		// DOM FORMS
+
+		var forms = document.forms;
+		console.log("quantidade de formularios: "+forms.length);
+		console.log(forms[0]);
+
+	// DOM TABLES
+
+		function adicionarLinha(texto1, texto2){
+		   var tb = document.getElementsByTagName("table").item(0);
+		   var row = tb.insertRow(-1);
+		   var cel0 = row.insertCell(0);
+		   var cel1 = row.insertCell(1);
+		   cel0.appendChild(document.createTextNode(texto1));	
+		   cel1.appendChild(document.createTextNode(texto2));			
+		}
+
+
+		// Pegar os links da página e listar quando clicar no botão
+
+
+		var listar = document.getElementById("listar");
+		var l = null;
+		listar.onclick = function(){
+			l = document.links;
+			//var l = document.images;
+			for(var i=0; i<l.length; i++){
+				adicionarLinha(l[i].alt, l[i].href);
+				//adicionarLinha(l[i].alt, l[i].src);
+			}
+
+			vazio();
+		}
+
+
+		// Deletar a primeira linha da tabela
+
+		var deletar = document.getElementById("deletar");
+		deletar.onclick = function(){
+			var tb =  document.getElementById("tb_at");
+			tb.deleteRow(1);
+			vazio();
+
+		}
+	   
+		// Esconder botão deletar se tabela estiver vazia
+
+		function vazio(){
+			
+			var tabela = document.getElementById("tb_at");
+			var linhas = tabela.getElementsByTagName('tr');
+
+			if(linhas.length == 1){
+				deletar.style.display = "none";
+			}else{
+				deletar.style.display = "block";
+			}				
+
+		}	
+
+		vazio();
+		
+
+	}
+
+
+		
+
+	</script>
+
+</head>
+<body>
+	<div class="container">
+		<div id="storage">
+			<form id="formStorage" action="">	
+				<h2>Salvar / Recuperar no Sorage</h2>		
+				<input id="texto" type="text" />				
+				<a id="gravar" href="#">gravar</a>
+				<a id="exibir" href="#">exibir</a>
+				<div class="espaco"> </div>
+			</form>
+		</div>
+		<div id="dom">
+			<h2 id="tit_id" name="tit_name" class="tit_class">DOM API</h2>
+
+			<img src="images/ball_disponivel.jpg" width="81.95" height="95.25" alt="">
+			<img src="images/ball_indisponivel.jpg" width="81.95" height="95.25" alt="">
+			<img id="selecionado" src="images/ball_selecionada.jpg" width="81.95" height="95.25" alt="">
+			<p>Lorem ipsum dolor sit amet, <a href="#">consectetur</a> adipisicing elit. Porro accusamus deserunt <a href="#">laudantium</a> dolor exercitationem eaque in qui commodi nesciunt accusantium, nam vitae expedita non saepe voluptate cupiditate <a href="#">distinctio</a> adipisci, laboriosam.</p>
+		</div>
+
+		<div id="cont-table">
+			<h2>Inserindo Colunas na Tabela</h2>
+			<table id="tb_at">
+				<tr>
+					<td>Atributo</td>
+					<td>Valor</td>
+				</tr>
+			</table>
+			<a id="listar" href="#">Listar</a>
+			<a id="deletar" href="#">deletar</a>
+			<div class="espaco"> </div>
+		</div>
+	</div>
+		
+</body>
+</html>

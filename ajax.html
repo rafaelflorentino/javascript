@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax</title>
+	<link rel="stylesheet" href="css/style.css">
+	<style type="text/css">
+		.btn{
+		    padding: 15px;
+		    background: white;
+		    width: 100px;
+		    margin: 0 auto;
+		    text-align: center;
+		    text-decoration: none;
+		    font-family: arial;
+		    color: #0c0c0c;
+		    font-weight: bold;
+		    margin-bottom: 20px;
+		    border: 1px solid #e2e1e1;
+		    float: left;			
+		}
+		#resposta{
+			clear: both;
+		}
+	</style>
+
+	<script type="text/javascript">	
+
+	/* Estado da conexão ajax*/
+
+		// 0 = comunicação não iniciada com servidor
+		// 1 = houve um início decomunicação
+		// 2 = início de requesição do servidor
+		// 3 = servidor em processo de envio de resposta
+		// 4 = indica que o servidor enviou resposta da requisição	
+
+window.onload = function(){
+
+/* Inicio, Função Ajax que Funciona em qualquer browser*/
+
+	document.getElementById("btn").onclick = function(){
+		requisitar("ajax/arquivo.xml");
+		//requisitar(this.href);// caso usuário desabilite o js
+		//requisitar("http://www.i-stream.com.br/webservices/cep.asmx/ConsultaCEP?CEP=70294070");
+		return false;
+	}
+
+		function mostrar(ajax){
+			var r = document.getElementById("resposta");
+			//while(r.hasChildNodes()){r.removeChild(r.lastChild);}
+			
+			//var xml = new XML(ajax.responseText);//deu erro
+			document.getElementById("resposta").innerHTML = ajax.responseText;
+			//r.appendChild(document.createTextNode(xml.url));
+
+			//alert(ajax.responseText);
+
+		}
+
+		function requisitar(url){
+			var ajax = iniciaAjax();	
+			carregando(document.getElementById("resposta"));
+			ajax.onreadystatechange = function(){
+				if(ajax.readyState == 4){ // 4 verifica resposta do servidor
+					mostrar(ajax);
+				}
+			}
+			ajax.open("POST",url);
+		    ajax.send(null);	
+		}
+
+
+		function iniciaAjax(){
+			var ajax = null;
+			if(window.XMLHttpRequest){
+				ajax = new XMLHttpRequest();		
+			}else if(window.ActiveXObject){
+				try{
+					ajax = new ActiveXObject("Msxml2.XMLHTTP");
+				}catch(e){
+					ajax = new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				
+			}
+			return ajax;
+		}
+
+		function carregando(c){
+			while(c.hasChildNodes()){
+				c.removeChild(c.lastChild);
+			}
+			var img = document.createElement("img");
+			img.setAttribute("src", "images/ajax-loader.gif");
+			c.appendChild(img);
+		}
+
+
+/* Fim, Função Ajax que Funciona em qualquer browser*/
+
+
+/* inicio, nao vai funcionar no internet explorer*/
+
+	/*	document.getElementById("btn").onclick = function(){
+			//status= 200, statusText=OK, responseText= resposta em texto, responseXML= resposta em xml
+			//status= 404, statusText=Arquivo não emcontrado
+			var ajax = new XMLHttpRequest();
+			var r = document.getElementById("resposta");
+			ajax.onreadystatechange = function(){
+				if(ajax.readyState == 4){ // 4 verifica resposta do servidor
+					//alert(ajax.responseText);
+					//r.innerHTML = ajax.responseText;
+					//r.appendChild(document.createTextNode(ajax.responseText));//forma correta DOM CORE API
+
+					var xml = ajax.responseXML;
+					var url = xml.getElementsByTagName("url")[0].firstChild.nodeValue;
+					r.appendChild(document.createTextNode(url));
+
+					//E4X
+					//var xml = new XML(ajax.responseText);
+					//var url = xml.url;
+					//r.appendChild(document.createTextNode(url));
+
+				}
+
+
+			}// 1 parametro: metodos principais GET, POST. 
+			//ajax.open("POST","ajax/arquivo.txt",true);
+			//ajax.open("POST","ajax/arquivo.html",true);
+			ajax.open("POST","ajax/arquivo.xml",true);
+			// 2 parametro: URL = indica onde o ajax tem que acessar
+			// 3 parametro verifica se requisição vai ser assincrona: true
+			// 4 parametro usuário
+			// 5 parametro senha
+
+			// null = sem enviar parametros
+			ajax.send(null);// inicia a requisição com o servidor
+			//ajax.send("param1=xpto&param2=xti.brazil");// se passar parametros
+			return false;
+		}*/
+
+/* Fim, nao vai funcionar no internet explorer*/
+
+
+
+	
+}
+
+	</script>
+</head>
+<body>
+	<a class="btn" id="btn" href="#">Ajax</a>
+	<div id="resposta"></div>
+</body>
+</html>

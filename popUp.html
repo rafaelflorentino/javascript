@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>POP UP</title>
+	<script>
+
+
+	window.onload = function(){
+
+	    document.body.innerHTML += "<div id='myDiv'><h1>asffasdf<h1></div>";// precisa estar no onload
+		
+		var frag = document.createDocumentFragment();
+		 
+		var div = document.createElement("div");
+		div.id = "div";
+		 
+		var titulo = document.createElement("h1");
+		var txt = "Texto asdfs";
+		titulo.appendChild(document.createTextNode(txt));// adicionando texto no h1
+		 
+		div.appendChild(titulo);
+		frag.appendChild(div);
+
+		var contPop = document.getElementById("contPop");
+		 
+		document.body.appendChild(frag);	
+
+		var t ="POP UP2";
+		document.getElementById("testePop").innerHTML = t;// editando o h1 que ja está da página
+
+
+		// DOM CORE API Navegação
+		//(Pai=parent, Filho=child, Irmão=sibling)
+		var section = document.getElementsByTagName("section").item(0);
+		//var section = document.getElementById("section");
+		//console.log(section.childNodes);
+		//alert(section);//elemento
+		//alert(section.parentNode);// pai do elemento
+		//alert(section.childNodes);// filhos
+
+		//console.log(section);
+		//console.log("first= "+section.firstChild);
+		//console.log(section.childNodes);
+
+		var ul = section.childNodes.item(0);		
+		//var ul = document.getElementsByTagName("ul").item(0);
+	
+		//console.log(ul);
+		//alert(ul);// primeiro filho (ul)
+		//alert(ul.nodeName);
+		//console.log(ul.nodeName);
+	//	console.log(ul.nodeType);// 1=Elemento; 2=Atributo; 3=texto
+
+		//console.log(ul.childNodes.item(0));// primeitro item
+		//console.log(ul.childNodes.firstChild);// primeiro filho
+		//console.log(ul.childNodes.lastChild);// ultimo filho
+		//console.log(ul.firstChild.firstChild);// neto 
+		//console.log(ul.firstChild.firstChild.nodeValue);// valor do elemento
+		//console.log(ul.firstChild.firstChild.type);//codigo do tipo 1,2 ou 3
+
+
+	//var li = ul.firstChild.lastChild.childNodes[1];
+	//console.log(li.firstChild.nodeValue);
+	//console.log(li.previousSibling.firstChild.nodeValue);// irmão anterior
+	//console.log(li.nextSibling.firstChild.nodeValue);//posterior
+
+	/*    Criando elementos  */
+
+	//Elementos fabrica: createElement, createTextNode, createAtribute
+
+	var hr = document.createElement("hr");// crindo uma linha
+	var section = document.getElementsByTagName("section").item(0);
+	section.appendChild(hr);//inserindo uma linha na section
+
+
+	var li = document.createElement("li");//criando uma li
+	li.appendChild(document.createTextNode("Teste de Lista"));// criando um texto, e inserindo na li
+
+	section.appendChild(li);// inserindo uma li
+
+	var atributo = document.createAttribute("style");// criando um atributo
+	atributo.value="color:blue";// adicionando um valor ao atributo style
+	li.setAttributeNode(atributo);// colocando color: blue; na li  DOM CORE API
+	//li.setAttribute("style","color:blue;"); outra forma DOM CORE API
+	//li.style.color = "gray"; //outra forma DOM HTML API
+
+	var select = document.createElement("select");// criando select
+	select.setAttribute("id","estados");// adicionando id
+	var option = document.createElement("option");//criando option
+	var option2 = document.createElement("option");
+	option.setAttribute("value","DF");//adicionando value
+	option.appendChild(document.createTextNode("Distrito Federal"));//inserindo texto
+	option2.setAttribute("value","SP");//adicionando value
+	option2.appendChild(document.createTextNode("São Paulo"));//inserindo texto	
+	select.appendChild(option);//adicionando option no select
+	select.appendChild(option2);//adicionando option no select
+	div.appendChild(select);//adicionando selec na diva
+
+// Remover Elementos
+
+	var del = div.firstChild;
+	//div.removeChild(del);
+
+	var select2 = select.cloneNode(true);//clona o campo select, o true faz clonar todos os itens dentro dele
+	div.appendChild(select2);
+
+	var option3 = option.cloneNode(true);//clona option
+	select2.appendChild(option3);//insere option no select
+
+
+
+
+	}
+
+	</script>
+
+
+</head>
+<body style="background: black; color:white;padding: 10px;">
+	<div id="contPop">
+		<h1 id="testePop" class="testePop" style="text-align: center;">POP UP</h1>
+		<p style="text-align: center;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure aspernatur, quibusdam sed accusantium nobis quisquam asperiores architecto dolorum neque repudiandae velit voluptate eum dignissimos rerum illo dolorem tenetur mollitia praesentium.</p>
+	</div>	
+
+	<h2>Arvore</h2>
+	<section id="section">
+		<ul>
+			<li id="item_1">
+				<p>Primeiro<span style="color: blue;">Item</span></p>
+				<ul>
+					<li id="Item_1.1">Item 1.1</li>
+					<li id="Item_1.2">Item 1.2</li>
+					<li id="Item_1.3">Item 1.3
+						<ul>
+							<li id="item_1.3.1">Item 1.3.1</li>
+						</ul>
+					</li>
+				</ul>
+			</li>
+			<li id="item_2">Item 2</li>
+			<li id="item_3">Item 3</li>
+		</ul>
+	</section>
+
+</body>
+</html>
