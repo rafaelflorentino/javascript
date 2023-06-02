@@ -105,4 +105,44 @@ console.log(data.getDate()); // pega só o dia
 console.log(data.getFullYear()); // pega só o ano
 console.log(data.getMonth()); // pega só o mes começa a contaar do 0 (0 = janeiro, 1 = fevereiro etc)
 
-console.log(data.toLocaleDateString("pt-BR")); // formata data no padrao do pais que vc dej
+console.log(data.toLocaleDateString("pt-BR")); // formata data no padrao do pais que vc dejesa
+
+// Array
+
+let carros = ["palio 98", "toro","uno",true,new Date(), function(){}];
+console.log(carros);
+console.log(carros.length);
+console.log(carros[0]);
+
+// For Each
+
+carros.forEach(function(value, index){
+    console.log(index, value);
+});
+
+// Classe Jeito Antigo
+let celular = function(){ // função anônima
+    this.cor = "prata"; // this no lugar de let ou var, para se transformar num atributo do objeto
+    this.ligar = function(){ // um metodo do objeto
+        console.log("uma ligação");
+        return "ligando";
+    }
+}
+let objeto = new celular();
+console.log(objeto);
+console.log(objeto.cor);
+console.log(objeto.ligar());
+
+// classe jeito novo
+class smartphone {
+    construtor(){
+        this.cor = "Branco";
+    }  
+    ligar(){
+        console.log("uma ligação de iphone");
+        return "ligando de iphone";
+    }
+}
+let celular2 = new smartphone();
+console.log(celular2);
+console.log(celular2.ligar());
