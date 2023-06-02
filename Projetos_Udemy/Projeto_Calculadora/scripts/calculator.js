@@ -1,3 +1,3 @@
-let calculator = new CalcController;
+window.calculator = new CalcController(); // quando poe window a variavel se torna global
 
-calculator.displayCalc
+//calculator.displayCalc

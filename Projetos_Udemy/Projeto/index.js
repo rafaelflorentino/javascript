@@ -146,3 +146,27 @@ class smartphone {
 let celular2 = new smartphone();
 console.log(celular2);
 console.log(celular2.ligar());
+
+/* Digitar no console do navegador:
+    document // documento configurações
+    dir(document) // documento configurações como objeto
+    window // navegador configurações
+    window.close() // fecha a janela
+
+    document.getElementById("display")//busca elemento pelo id versao antiga
+    document.querySelector("#display")//  busca o elemento pelo id (#) ou classe (().) versão nova
+    displayCalcEl.innerHTML = "4567"; // insere esse conteudo nesse lemento html armazenado na variavel displayCalcEl
+    .toLocaleDateString('pt-BR', {month:'long'})
+    .toLocaleDateString('pt-BR', {month:'short'})
+    .toLocaleTimeString('pt-BR')
+    .displayDate = new Date().toLocaleDateString('pt-BR')
+    .calculator.displayTime = new Date().toLocaleTimeString('pt-BR')
+
+    // a cada um segundo muda
+      setInterval(()=> {
+            this.displayDate = this.currentDate.toLocaleDateString(this._locale);
+            this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
+        },1000 );
+        
+     setTimeout(()=> {},);
+*/
