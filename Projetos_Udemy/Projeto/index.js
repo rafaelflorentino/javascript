@@ -166,7 +166,7 @@ console.log(celular2.ligar());
       setInterval(()=> {
             this.displayDate = this.currentDate.toLocaleDateString(this._locale);
             this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
-        },1000 );
-        
+        },1000 ); // millisegundos
+
      setTimeout(()=> {},);
 */
