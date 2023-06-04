@@ -155,10 +155,10 @@ console.log(celular2.ligar());
 
     document.getElementById("display")//busca elemento pelo id versao antiga
     document.querySelector("#display")//  busca o elemento pelo id (#) ou classe (().) versão nova
-    displayCalcEl.innerHTML = "4567"; // insere esse conteudo nesse lemento html armazenado na variavel displayCalcEl
-    .toLocaleDateString('pt-BR', {month:'long'})
+    displayCalcEl.innerHTML = "4567"; // insere esse conteúdo nesse elemento html armazenado na variável displayCalcEl
+    .toLocaleDateString('pt-BR', {month:'long'}) // data local
     .toLocaleDateString('pt-BR', {month:'short'})
-    .toLocaleTimeString('pt-BR')
+    .toLocaleTimeString('pt-BR') // hora local
     .displayDate = new Date().toLocaleDateString('pt-BR')
     .calculator.displayTime = new Date().toLocaleTimeString('pt-BR')
 
@@ -169,4 +169,5 @@ console.log(celular2.ligar());
         },1000 ); // millisegundos
 
      setTimeout(()=> {},);
+     document.querySelectorAll("#buttons > g, #parts > g") // SelectorAll seleciona todos
 */
