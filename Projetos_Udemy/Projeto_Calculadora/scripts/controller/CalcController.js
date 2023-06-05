@@ -1,8 +1,9 @@
 class CalcController {
     constructor(){ // método construtor chamado automaticamente quando essa classe e instânciada.
         // Atributos != variáveis Funçoes != Métodos.
+        
         this._locale = 'pt-BR';
-        this.operation = []; // array oara guardas os operadores
+        this.operation = []; // array para guardar os operadores
         this._displayCalcEl = document.querySelector("#display"); // El se refere ao elemento do html por covenção.
         this._dateEl = document.querySelector("#data");
         this._timeEl = document.querySelector("#hora");
@@ -48,8 +49,36 @@ clearAll(){ // zera a calculadora
 clearEntry(){ // limpa último elemento digitado
     this._operation.pop();
 }
+getLastOperation(){ // pega o ultimo caracter digitado, o ultimo elemento da array
+    return this._operation[this._operation.length-1]
+}
+setLastOperation(value){
+    this._operation[this._operation.length - 1] = value;
+
+}
+isOperator(value){ // verifica se é um operador
+    return (['+', '-', '*', '%', '/'].indexOf(value) > -1); // busca esee valor(value) nesse array, caso nao retorna -1
+    //true or false
+}
+
 addOperation(value){
-    this._operation.push(value); // push adiciona um elmento no final da array
+    if(isNaN(this.getLastOperation())){
+        // String
+        if(this.isOperator(value)){
+            //trocar o operador
+            this._setLastOperation(value); // caso seja um operador vira ultimo item
+
+        }else if(isNaN(value)){ // caso apareça underfined irá sair true
+            // outra coisa
+            console.log(value)
+        }else{ // primeira vez que adiciona um valor na calculadora
+            this._operation.push(value);
+        }
+    }else{
+        // Number
+       let newValue = this.getLastOperation().toString() + value.toString()// transforma o número em string e concatena com array para formar o número
+       this.setLastOperation(parseInt(newValue)); // push adiciona um elmento no final da array
+    }
     
     console.log(this._operation);
 }
@@ -66,22 +95,25 @@ setError(){
                 this.clearEntry();
                 break;  
             case "soma":
-                this.soma();
+                this.addOperation('+');
                 break;    
             case "subtracao":
-                this.subtracao();
+                this.addOperation('-');
                 break;   
             case "divisao":
-                this.divisao();
+                this.addOperation('/');
                 break;   
             case "multiplicacao":
-                this.multiplicacao();
+                this.addOperation('*');
                 break;
             case "porcento":
-                this.porcento();
+                this.addOperation('%');
                 break;
             case "igual":
                 this.igual();
+                break;  
+            case 'Ponto':
+                this.addOperation('.');
                 break;  
             case '0':
             case '1':
