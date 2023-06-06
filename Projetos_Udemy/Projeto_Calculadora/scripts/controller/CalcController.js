@@ -1,120 +1,209 @@
-class CalcController {
-    constructor(){ // método construtor chamado automaticamente quando essa classe e instânciada.
-        // Atributos != variáveis Funçoes != Métodos.
+class CalcController { 
+
+    constructor(){ // Método construtor chamado automaticamente quando essa classe e instânciada.
+ 
+        // Atributos(variáveis dentro de uma classe) != Variáveis(variáveis fora de uma classe) 
+        // Funçoes(Métodos dentro de uma classe) != Métodos(Métodos fora de uma classe).
         
-        this._locale = 'pt-BR';
-        this.operation = []; // array para guardar os operadores
-        this._displayCalcEl = document.querySelector("#display"); // El se refere ao elemento do html por covenção.
-        this._dateEl = document.querySelector("#data");
-        this._timeEl = document.querySelector("#hora");
-        //this._displayCalc = "0";// var == this. referencia do próprio objeto que foi instanciado.
-        this._currentDate;  // _ significa que o atributo e privado, só a classe pode acessar.(encapsulamento).
-        this.initialize();
-        this.initButtonsEvents();
+        this._operation = []; // Atributo Array com os números e operações digitadas.
+        this._locale = 'pt-BR'; // Atributo para passar o pais para depois usar na data e hora .
+        this._displayCalcEl = document.querySelector("#display");// El se refere ao elemento do html por covenção, conteúdo html do elemento.
+        this._dateEl = document.querySelector("#data");// Atributo para guardar o conteúdo html do elemento.
+        this._timeEl = document.querySelector("#hora");// Atributo para guardar ohtml do elemento.
+        this._currentDate; // Atributo para Data Atual.
+        this.initialize();// Função para inicializar.
+        this.initButtonsEvents(); // Função para inicializar e ficar ouvindo os eventos dos botões.
+
     }
 
     initialize(){
 
-        this.setDisplayDateTime();// mostra a data e hora local, pela 1° vez (para nao inicializar vazio).
+        this.setDisplayDateTime() // Mostra a data e hora local, pela 1° vez (para nao inicializar vazio).
 
-        setInterval(()=> { //fica atualizando a dara e hora local a cada 1 segundo.
-            this.setDisplayDateTime(); 
-            //this.displayDate = this.currentDate.toLocaleDateString(this._locale);
-            // this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
-        },1000 );
+        setInterval(()=>{ // Fica atualizando a data e hora local a cada 1 segundo.
 
-        //displayCalcEl.innerHTML = "4567";
-        //this._dateEl.innerHTML = "16/12/2023";
-        // this._timeEl.innerHTML = "00:00";   
+            this.setDisplayDateTime(); // Mostra a data e hora na tela da calculadora
+            // this.displayDate = this.currentDate.toLocaleDateString(this._locale);
+            // this.displayTime = this.currentDate.toLocaleTimeString(this._locale);            
+
+        }, 1000);
+        // displayCalcEl.innerHTML = "4567";
+        // this._dateEl.innerHTML = "16/12/2023";
+        // this._timeEl.innerHTML = "00:00";  
+
     }
-// Função para pegar a data e a hora local.
-    setDisplayDateTime(){
 
-        this.displayDate = this.currentDate.toLocaleDateString(this._locale,{
-            day: "2-digit",
-            month: "long",
-            year: "numeric"
-        });
-        this.displayTime = this.currentDate.toLocaleTimeString(this._locale);        
-    }
     addEventListenerAll(element, events, fn){
-        events.split(' ').forEach(event => { // split separa string em array, foreach vai passar em cada um dos eventos click e drag.
-            element.addEventListener(event, fn, false); // impede que o evento ocorra 2 vezes(no clicque e no arrasto)
+
+        events.split(' ').forEach(event => { // Split separa string em array, foreach vai passar em cada um dos eventos click e drag.
+
+            element.addEventListener(event, fn, false); // // Impede que o evento ocorra 2 vezes(no clique e no arrasto).
+
         })
-    }
-clearAll(){ // zera a calculadora
-    this._operation = [];
-}
-
-clearEntry(){ // limpa último elemento digitado
-    this._operation.pop();
-}
-getLastOperation(){ // pega o ultimo caracter digitado, o ultimo elemento da array
-    return this._operation[this._operation.length-1]
-}
-setLastOperation(value){
-    this._operation[this._operation.length - 1] = value;
-
-}
-isOperator(value){ // verifica se é um operador
-    return (['+', '-', '*', '%', '/'].indexOf(value) > -1); // busca esee valor(value) nesse array, caso nao retorna -1
-    //true or false
-}
-
-addOperation(value){
-    if(isNaN(this.getLastOperation())){
-        // String
-        if(this.isOperator(value)){
-            //trocar o operador
-            this._setLastOperation(value); // caso seja um operador vira ultimo item
-
-        }else if(isNaN(value)){ // caso apareça underfined irá sair true
-            // outra coisa
-            console.log(value)
-        }else{ // primeira vez que adiciona um valor na calculadora
-            this._operation.push(value);
-        }
-    }else{
-        // Number
-       let newValue = this.getLastOperation().toString() + value.toString()// transforma o número em string e concatena com array para formar o número
-       this.setLastOperation(parseInt(newValue)); // push adiciona um elmento no final da array
-    }
     
-    console.log(this._operation);
-}
-setError(){
-    this.displayCalc = "Error"
-}
+    }
+
+    clearAll(){ // Zera a calculadora.
+
+        this._operation = []; // Array fica vazia.
+
+    }
+
+    clearEntry(){ // Limpa o último elemento digitado.
+
+        this._operation.pop();
+
+    }
+
+    getLastOperation(){ // Pega o último caracter digitado, o último elemento da array.
+
+        return this._operation[this._operation.length-1];
+
+    }
+
+    setLastOperation(value){ // Insere um novo elemento no final da array.
+
+        this._operation[this._operation.length-1] = value;
+
+    }
+
+    isOperator(value){ // Verifica se é um operador.
+
+        return (['+', '-', '*', '%', '/'].indexOf(value) > -1);
+
+    }
+
+    pushOperation(value){ // Quando digitar um operador.
+
+        this._operation.push(value);
+
+        if (this._operation.length > 3) {
+
+            this.calc(); // Chama a função para calcular.
+
+        }
+
+    }
+
+    calc(){ // Função que calcula a operação.
+
+        let last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele.
+        
+        let result = eval(this._operation.join(""));  // Junta os números digitados e tira os espaços entre eles, eval realiza o calculo das strings.
+
+        this._operation = [result, last]; // Guarda o resultado da operação e a última operação digitada.
+
+        this.setLastNumberToDisplay(); // Chama função que Seta no display o resultado do calculo.
+
+    }
+
+    setLastNumberToDisplay(){ // Função que Seta no display o resultado do calculo.
+
+        let lastNumber;
+
+        for (let i = this._operation.length-1; i >= 0; i--){
+
+            if (!this.isOperator(this._operation[i])) {
+
+                lastNumber = this._operation[i]; // O último elemento da array recebe o valor do resultado.
+
+                break;
+
+            }
+
+        }
+
+        this.displayCalc = lastNumber;
+
+    }
+
+    addOperation(value){
+
+
+        if (isNaN(this.getLastOperation())) {
+
+            if (this.isOperator(value)) { // Trocar o operador.
+
+                this.setLastOperation(value); // Caso seja um operador vira último item.
+
+            } else if (isNaN(value)){ 
+
+                console.log("outra coisa",value);
+
+            } else { // Primeira vez que adiciona um valor na calculadora.
+
+                this.pushOperation(value);
+
+                this.setLastNumberToDisplay(); // Primeiro valor era Underfined não ia aparecer na tela. 
+
+            }
+
+        } else { // Número.
+
+            if (this.isOperator(value)){
+
+                this.pushOperation(value);
+
+            } else {
+
+                let newValue = this.getLastOperation().toString() + value.toString(); // Transforma o número em string e concatena com array para formar o número.
+
+                this.setLastOperation(parseInt(newValue)); // Chama a função para adicionar um elemento no final da array.
+
+                this.setLastNumberToDisplay(); // faz aparecer na tela valor.
+
+            }
+
+        }
+
+    }
+
+    setError(){ // Mensagem de erro.
+
+        this.displayCalc = "Error"; // Vostra no visor a mensagem.
+        
+    }
 
     execBtn(value){
-        switch (value) {
-            case "ac":
+
+        switch (value) { // Verifica o botão digitado.
+
+            case 'ac':
                 this.clearAll();
                 break;
-            case "ce":
+
+            case 'ce':
                 this.clearEntry();
-                break;  
-            case "soma":
+                break;
+
+            case 'soma':
                 this.addOperation('+');
-                break;    
-            case "subtracao":
+                break;
+
+            case 'subtracao':
                 this.addOperation('-');
-                break;   
-            case "divisao":
+                break;
+
+            case 'divisao':
                 this.addOperation('/');
-                break;   
-            case "multiplicacao":
+                break;
+
+            case 'multiplicacao':
                 this.addOperation('*');
                 break;
-            case "porcento":
+
+            case 'porcento':
                 this.addOperation('%');
                 break;
-            case "igual":
-                this.igual();
-                break;  
-            case 'Ponto':
+
+            case 'igual':
+                
+                break;
+
+            case 'ponto':
                 this.addOperation('.');
-                break;  
+                break;
+
             case '0':
             case '1':
             case '2':
@@ -127,59 +216,98 @@ setError(){
             case '9':
                 this.addOperation(parseInt(value));
                 break;
+
             default:
                 this.setError();
                 break;
+
         }
+
     }
 
     initButtonsEvents(){
-        let buttons = document.querySelectorAll("#buttons > g, #parts > g"); // recebe lista com varios elementos
 
-        buttons.forEach((btn, index) => { // precisa percorrer cada elementeo da lista para ouvir
-            this.addEventListenerAll(btn, "click drag", e => { // adiciona o elemento da lista que foi clicado ou arrastado
-                //console.log(e); // mostra o informaçoes do elemento clicado
-                //console.log(btn); // mostra o elemento clicado a tag html completa
-                //console.log(btn.className.baseVal); // traz a classe do elemento clicado
-               let textBtn = console.log(btn.className.baseVal.replace("btn-",""));// traz a classe e retira btn- do nome da classe
+        let buttons = document.querySelectorAll("#buttons > g, #parts > g"); // Recebe lista com vários elementos.
 
-               this.execBtn(textBtn);
-            });
+        buttons.forEach((btn, index)=>{ // Precisa percorrer cada elemento da lista para ouvir.
 
-            this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => {
+            this.addEventListenerAll(btn, "click drag", e => { // Adiciona o elemento da lista que foi clicado ou arrastado.
+                // console.log(e); // Mostra o informaçoes do elemento clicado.
+                // console.log(btn); // Mostra o elemento clicado a tag html completa.
+                // console.log(btn.className.baseVal); // Traz a classe do elemento clicado.
+                let textBtn = btn.className.baseVal.replace("btn-","");// Traz a classe e retira btn- do nome da classe.
+
+                this.execBtn(textBtn);
+
+            })
+
+            this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => { // Mudar o cursor do mouse em cima dos botões.
+
                 btn.style.cursor = "pointer";
-            });
+
+            })
+
+        })
+
+    }
+
+    setDisplayDateTime(){ // Formata data e hora para aparecer no diplay.
+
+        this.displayDate = this.currentDate.toLocaleDateString(this._locale, {
+            day: "2-digit",
+            month: "long",
+            year: "numeric"
         });
+        this.displayTime = this.currentDate.toLocaleTimeString(this._locale);
+
     }
 
     get displayTime(){
+
         return this._timeEl.innerHTML;
+
     }
 
     set displayTime(value){
+
         return this._timeEl.innerHTML = value;
+
     }
 
     get displayDate(){
+
         return this._dateEl.innerHTML;
+
     }
 
     set displayDate(value){
+
         return this._dateEl.innerHTML = value;
+
     }
 
     get displayCalc(){
+
         return this._displayCalcEl.innerHTML;
+
     }
+
     set displayCalc(value){
+
         this._displayCalcEl.innerHTML = value;
+
     }
 
     get currentDate(){
+
         return new Date();
+
     }
 
     set currentDate(value){
+
         this._currentDate = value;
+
     }
+
 }
