@@ -22,7 +22,7 @@ class CalcController {
 
         setInterval(()=>{ // Fica atualizando a data e hora local a cada 1 segundo.
 
-            this.setDisplayDateTime(); // Mostra a data e hora na tela da calculadora
+            this.setDisplayDateTime(); // Mostra a data e hora na tela da calculadora.
             // this.displayDate = this.currentDate.toLocaleDateString(this._locale);
             // this.displayTime = this.currentDate.toLocaleTimeString(this._locale);            
 
@@ -30,6 +30,8 @@ class CalcController {
         // displayCalcEl.innerHTML = "4567";
         // this._dateEl.innerHTML = "16/12/2023";
         // this._timeEl.innerHTML = "00:00";  
+
+        this.setLastNumberToDisplay(); // Mostra o valor no display, no caso zero(pois é a primeira vez).
 
     }
 
@@ -47,11 +49,15 @@ class CalcController {
 
         this._operation = []; // Array fica vazia.
 
+        this.setLastNumberToDisplay // Mostra na tela novo valor vazio.
+
     }
 
     clearEntry(){ // Limpa o último elemento digitado.
 
         this._operation.pop();
+
+        this.setLastNumberToDisplay // Mostra na tela novo valor atualizado.
 
     }
 
@@ -87,11 +93,23 @@ class CalcController {
 
     calc(){ // Função que calcula a operação.
 
-        let last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele.
-        
+        let last =''; // Deixa o ultimo elemento vazio.
+
+        if(this._operation.length > 3){ // Caso array tenha  mais de 3 elementos realiza o igual
+            last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele
+
+        }
+
         let result = eval(this._operation.join(""));  // Junta os números digitados e tira os espaços entre eles, eval realiza o calculo das strings.
 
-        this._operation = [result, last]; // Guarda o resultado da operação e a última operação digitada.
+        if(last == '%'){ // Caso seja apertado o botão de porcentagem.
+            result /=  100; // result = result / 100; Cálculo da porcentagem.
+            this._operation = [result]; // Atualiza o resultado da porcentagem.
+        }else{
+            this._operation = [result]; // Guarda o resultado da operação e a última operação digitada.
+            if(last) this._operation.push(last); // Caso o último seja diferente de vazio, adiciona elemento.
+                
+        }
 
         this.setLastNumberToDisplay(); // Chama função que Seta no display o resultado do calculo.
 
@@ -112,6 +130,8 @@ class CalcController {
             }
 
         }
+
+        if(!lastNumber) lastNumber = 0 ; // Sempre que a array estiver vazia coloque o numero zero no display
 
         this.displayCalc = lastNumber;
 
@@ -197,7 +217,7 @@ class CalcController {
                 break;
 
             case 'igual':
-                
+                this.calc();
                 break;
 
             case 'ponto':
