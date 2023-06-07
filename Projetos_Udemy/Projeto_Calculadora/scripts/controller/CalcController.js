@@ -4,6 +4,9 @@ class CalcController {
  
         // Atributos(variáveis dentro de uma classe) != Variáveis(variáveis fora de uma classe) 
         // Funçoes(Métodos dentro de uma classe) != Métodos(Métodos fora de uma classe).
+
+        this._lastoperatot = '';
+        this._lastNumber = ';'
         
         this._operation = []; // Atributo Array com os números e operações digitadas.
         this._locale = 'pt-BR'; // Atributo para passar o pais para depois usar na data e hora .
@@ -91,16 +94,36 @@ class CalcController {
 
     }
 
+    getResult(){
+        
+        return eval(this._operation.join(""));
+    }
+
     calc(){ // Função que calcula a operação.
 
         let last =''; // Deixa o ultimo elemento vazio.
+        
+        this._lastOperator = this.getLastItem();
 
-        if(this._operation.length > 3){ // Caso array tenha  mais de 3 elementos realiza o igual
-            last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele
-
+        if(this._operation.length < 3){
+            let firstItem = this._operation[0];
+            this._operation = [firstItem, this._lastOperator, this._lastNumber];
         }
 
-        let result = eval(this._operation.join(""));  // Junta os números digitados e tira os espaços entre eles, eval realiza o calculo das strings.
+
+        if(this._operation.length > 3){ // Caso array tenha  mais de 3 elementos realiza o igual
+
+            last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele
+            this._lastNumber = this.getResult();
+
+        }else if(this._operation.length == 3){ // caso seja apertado 
+
+            this._lastNumber = this.getLastItem(false);
+        }
+        // console.log('_lastOperator', this._lastOperator);
+        // console.log('_lastNumber', this._lastNumber);
+
+        let result = this.getResult();  // Junta os números digitados e tira os espaços entre eles, eval realiza o calculo das strings.
 
         if(last == '%'){ // Caso seja apertado o botão de porcentagem.
             result /=  100; // result = result / 100; Cálculo da porcentagem.
@@ -115,25 +138,31 @@ class CalcController {
 
     }
 
+    getLastItem(isOperator =  true){ // verificar qual foi o último numero operador digitado, para efeito do igual  da calculadora
+       
+        let lastItem;
+
+        for (let i = this._operation.length - 1; i >= 0; i--){
+   
+                if (this.isOperator(this._operation[i]) == isOperator) { // se apertar número + numero + : 2 + 3 + (5) = 10 = 15 = 20
+                    lastItem = this._operation[i]; // O último elemento da array recebe o valor do resultado.
+                    break;
+                }
+        }
+        if(!lastItem){ // se apertar o igual soma o resultado com o último valor digitado 2 + 3 = 5 = 8 = 11 = 14)
+            lastItem = (isOperator) ? this._lastOperator : this._lastNumber;
+        }
+        return lastItem;
+
+    }
+
     setLastNumberToDisplay(){ // Função que Seta no display o resultado do calculo.
 
-        let lastNumber;
+        let lastNumber = this.getLastItem(false);
 
-        for (let i = this._operation.length-1; i >= 0; i--){
+            if (!lastNumber) lastNumber = 0;
 
-            if (!this.isOperator(this._operation[i])) {
-
-                lastNumber = this._operation[i]; // O último elemento da array recebe o valor do resultado.
-
-                break;
-
-            }
-
-        }
-
-        if(!lastNumber) lastNumber = 0 ; // Sempre que a array estiver vazia coloque o numero zero no display
-
-        this.displayCalc = lastNumber;
+             this.displayCalc = lastNumber;// Sempre que a array estiver vazia coloque o numero zero no display
 
     }
 
