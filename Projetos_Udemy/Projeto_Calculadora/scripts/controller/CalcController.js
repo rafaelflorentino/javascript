@@ -51,6 +51,8 @@ class CalcController {
     clearAll(){ // Zera a calculadora.
 
         this._operation = []; // Array fica vazia.
+        this._lastNumber = ''; // Zera variável
+        this._lastOperator = ''; // Zera variável
 
         this.setLastNumberToDisplay // Mostra na tela novo valor vazio.
 
@@ -175,10 +177,6 @@ class CalcController {
 
                 this.setLastOperation(value); // Caso seja um operador vira último item.
 
-            } else if (isNaN(value)){ 
-
-                console.log("outra coisa",value);
-
             } else { // Primeira vez que adiciona um valor na calculadora.
 
                 this.pushOperation(value);
@@ -197,7 +195,7 @@ class CalcController {
 
                 let newValue = this.getLastOperation().toString() + value.toString(); // Transforma o número em string e concatena com array para formar o número.
 
-                this.setLastOperation(parseInt(newValue)); // Chama a função para adicionar um elemento no final da array.
+                this.setLastOperation(newValue); // Chama a função para adicionar um elemento no final da array.
 
                 this.setLastNumberToDisplay(); // faz aparecer na tela valor.
 
@@ -209,8 +207,20 @@ class CalcController {
 
     setError(){ // Mensagem de erro.
 
-        this.displayCalc = "Error"; // Vostra no visor a mensagem.
-        
+        this.displayCalc = "Error"; // Vostra no visor a mensagem.   
+    }
+    addDot(){ // quando apertar o ponto, 3 situações, inicio, depois de um numero, antes da operação
+
+        let lastOperation = this.getLastOperation();
+        if(typeof lastOperation === 'string' && lastOperation.split('').indexOf('.') > -1) return;// Transforma a array em string e separa, procura se já tem 1 ponto
+
+        if(this.isOperator(lastOperation) || !lastOperation){
+            this.pushOperation('0.');
+        }else{
+            this.setLastOperation(lastOperation.toString() + '.');
+        }
+        this.setLastNumberToDisplay();
+
     }
 
     execBtn(value){
@@ -250,7 +260,7 @@ class CalcController {
                 break;
 
             case 'ponto':
-                this.addOperation('.');
+                this.addDot('.');
                 break;
 
             case '0':
