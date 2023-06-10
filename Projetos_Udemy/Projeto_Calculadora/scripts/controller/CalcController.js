@@ -16,6 +16,7 @@ class CalcController {
         this._currentDate; // Atributo para Data Atual.
         this.initialize();// Função para inicializar.
         this.initButtonsEvents(); // Função para inicializar e ficar ouvindo os eventos dos botões.
+        this.initKeyboard();
 
     }
 
@@ -36,6 +37,50 @@ class CalcController {
 
         this.setLastNumberToDisplay(); // Mostra o valor no display, no caso zero(pois é a primeira vez).
 
+    }
+
+    initKeyboard(){ // Capturar eventos do teclado.
+        document.addEventListener('keyup', e=>{
+            switch (e.key) { // Verifica o botão digitado.
+
+                case 'Escape':
+                    this.clearAll();
+                    break;
+                case 'Backspace':
+                    this.clearEntry();
+                    break;
+                case '+':
+                case '-':
+                case '/':
+                case '*':
+                case '%':
+                    this.addOperation(e.key); // key = value do botão clicado
+                    break;
+                case 'Enter':
+                case '=':
+                    this.calc();
+                    break;
+    
+                case '.':
+                case ',':
+                    this.addDot('.');
+                    break;
+    
+                case '0':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
+                    this.addOperation(parseInt(e.key));
+                    break;
+            }
+
+        });
     }
 
     addEventListenerAll(element, events, fn){
