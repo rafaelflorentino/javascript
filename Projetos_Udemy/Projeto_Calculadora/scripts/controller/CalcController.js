@@ -5,6 +5,8 @@ class CalcController {
         // Atributos(variáveis dentro de uma classe) != Variáveis(variáveis fora de uma classe) 
         // Funçoes(Métodos dentro de uma classe) != Métodos(Métodos fora de uma classe).
 
+        this._audio = new Audio('click.mp3');
+        this.audioOnOff = false;
         this._lastoperatot = '';
         this._lastNumber = ';'
         
@@ -18,6 +20,33 @@ class CalcController {
         this.initButtonsEvents(); // Função para inicializar e ficar ouvindo os eventos dos botões.
         this.initKeyboard();
 
+    }
+
+    pasteFromClipboard(){
+        document.addEventListener('paste', e => {
+
+            let text = e.clipboardData.getData('Text');
+
+            this.displayCalc = parseFloat(text);
+
+            console.log(text);
+
+        })
+    }
+
+
+    copyToClipboard(){
+        let input = document.createElement('input'); // Cria um campo input.
+
+        input.value = this.displayCalc; 
+
+        document.body.appendChild(input); // Faz o input aparecer na tela. filho de body.
+
+        input.select(); // Seleciona o input.
+
+        document.execCommand("Copy");// Copia o valor do input.
+
+        input.remove(); // Remove o input da tela.
     }
 
     initialize(){
@@ -36,11 +65,37 @@ class CalcController {
         // this._timeEl.innerHTML = "00:00";  
 
         this.setLastNumberToDisplay(); // Mostra o valor no display, no caso zero(pois é a primeira vez).
+        this.pasteFromClipboard();
 
+        document.querySelectorAll('.btn-ac').forEach(btn =>{ // Tem mais de um precisa do foreach pra percorrer cada
+            btn.addEventListener('dbclick', e => { //  Escuta evento de duplo click
+
+                this.toggleAudio(); // liga ou desliga o som
+
+            });
+        });
+
+    }
+
+    toggleAudio(){ // Troca o audio ligado ou desligado
+        this._audioOnOff = !this._audioOnOff; // recebe o contrario dele (true ou false) ligado ou desligado.
+        //this._audioOnOff = (this._audioOnOff) ? false : true;
+
+    }
+
+    playAudio(){ // Toca o som do audio
+        if(this._audioOnOff){
+            
+            this._audio.currentTime = 0; // Faz tocar o audio do inicio sempre que clicar em um botão.
+            this._audio.play();
+        }
     }
 
     initKeyboard(){ // Capturar eventos do teclado.
         document.addEventListener('keyup', e=>{
+
+            this.playAudio(); // Verifica se pode ou não tocar o audio.
+
             switch (e.key) { // Verifica o botão digitado.
 
                 case 'Escape':
@@ -78,6 +133,10 @@ class CalcController {
                 case '9':
                     this.addOperation(parseInt(e.key));
                     break;
+                
+                    case 'c':
+                        if(e.ctrlKey) this.copyToClipboard();
+                        break
             }
 
         });
@@ -270,6 +329,8 @@ class CalcController {
 
     execBtn(value){
 
+        this.playAudio(); // Verifica se pode ou não tocar o audio.
+
         switch (value) { // Verifica o botão digitado.
 
             case 'ac':
@@ -397,6 +458,11 @@ class CalcController {
     }
 
     set displayCalc(value){
+
+        if(value.toString().length > 10){
+            this.setError();
+            return false;
+        }
 
         this._displayCalcEl.innerHTML = value;
 
