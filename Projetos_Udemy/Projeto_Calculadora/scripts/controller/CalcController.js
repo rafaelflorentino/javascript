@@ -7,7 +7,7 @@ class CalcController {
 
         this._audio = new Audio('click.mp3');
         this.audioOnOff = false;
-        this._lastoperatot = '';
+        this._lastOperator = '';
         this._lastNumber = '';
         
         this._operation = []; // Atributo Array com os números e operações digitadas.
@@ -16,6 +16,7 @@ class CalcController {
         this._dateEl = document.querySelector("#data");// Atributo para guardar o conteúdo html do elemento.
         this._timeEl = document.querySelector("#hora");// Atributo para guardar ohtml do elemento.
         this._currentDate; // Atributo para Data Atual.
+
         this.initialize();// Função para inicializar.
         this.initButtonsEvents(); // Função para inicializar e ficar ouvindo os eventos dos botões.
         this.initKeyboard();
@@ -165,7 +166,7 @@ class CalcController {
         this._lastNumber = ''; // Zera variável
         this._lastOperator = ''; // Zera variável
 
-        this.setLastNumberToDisplay // Mostra na tela novo valor vazio.
+        this.setLastNumberToDisplay(); // Mostra na tela novo valor vazio.
 
     }
 
@@ -429,15 +430,15 @@ class CalcController {
 
                 this.execBtn(textBtn);
 
-            })
+            });
 
             this.addEventListenerAll(btn, "mouseover mouseup mousedown", e => { // Mudar o cursor do mouse em cima dos botões.
 
                 btn.style.cursor = "pointer";
 
-            })
+            });
 
-        })
+        });
 
     }
 
