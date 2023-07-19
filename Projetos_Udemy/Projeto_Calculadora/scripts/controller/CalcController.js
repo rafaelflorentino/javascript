@@ -8,7 +8,7 @@ class CalcController {
         this._audio = new Audio('click.mp3');
         this.audioOnOff = false;
         this._lastoperatot = '';
-        this._lastNumber = ';'
+        this._lastNumber = '';
         
         this._operation = []; // Atributo Array com os números e operações digitadas.
         this._locale = 'pt-BR'; // Atributo para passar o pais para depois usar na data e hora .
@@ -21,20 +21,7 @@ class CalcController {
         this.initKeyboard();
 
     }
-
-    pasteFromClipboard(){
-        document.addEventListener('paste', e => {
-
-            let text = e.clipboardData.getData('Text');
-
-            this.displayCalc = parseFloat(text);
-
-            console.log(text);
-
-        })
-    }
-
-
+/*
     copyToClipboard(){
         let input = document.createElement('input'); // Cria um campo input.
 
@@ -47,6 +34,26 @@ class CalcController {
         document.execCommand("Copy");// Copia o valor do input.
 
         input.remove(); // Remove o input da tela.
+    }
+*/
+    copyToClipboard() {
+
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(this.displayCalc);
+        }
+
+    }
+
+    pasteFromClipboard(){
+        document.addEventListener('paste', e => {
+
+            let text = e.clipboardData.getData('Text');
+
+            this.displayCalc = parseFloat(text);
+
+            //console.log(text);
+
+        });
     }
 
     initialize(){
@@ -148,7 +155,7 @@ class CalcController {
 
             element.addEventListener(event, fn, false); // // Impede que o evento ocorra 2 vezes(no clique e no arrasto).
 
-        })
+        });
     
     }
 
@@ -166,19 +173,19 @@ class CalcController {
 
         this._operation.pop();
 
-        this.setLastNumberToDisplay // Mostra na tela novo valor atualizado.
+        this.setLastNumberToDisplay(); // Mostra na tela novo valor atualizado.
 
     }
 
     getLastOperation(){ // Pega o último caracter digitado, o último elemento da array.
 
-        return this._operation[this._operation.length-1];
+        return this._operation[this._operation.length - 1];
 
     }
 
     setLastOperation(value){ // Insere um novo elemento no final da array.
 
-        this._operation[this._operation.length-1] = value;
+        this._operation[this._operation.length - 1] = value;
 
     }
 
@@ -199,7 +206,7 @@ class CalcController {
         }
 
     }
-
+/*
     getResult(){
         try {
             return eval(this._operation.join(""));
@@ -210,6 +217,16 @@ class CalcController {
             this.setError();
         }
          
+    }
+*/
+    getResult() {
+
+        try {
+            return eval(this._operation.join(""));
+        } catch (e) {
+            setTimeout(() => this.setError(), 1);
+        }
+
     }
 
     calc(){ // Função que calcula a operação.
@@ -229,7 +246,7 @@ class CalcController {
             last = this._operation.pop(); // Remove o último elemento(operador), e retorna o valor dele
             this._lastNumber = this.getResult();
 
-        }else if(this._operation.length == 3){ // caso seja apertado 
+        }else if(this._operation.length === 3){ // caso seja apertado 
 
             this._lastNumber = this.getLastItem(false);
         }
@@ -238,7 +255,7 @@ class CalcController {
 
         let result = this.getResult();  // Junta os números digitados e tira os espaços entre eles, eval realiza o calculo das strings.
 
-        if(last == '%'){ // Caso seja apertado o botão de porcentagem.
+        if(last === '%'){ // Caso seja apertado o botão de porcentagem.
             result /=  100; // result = result / 100; Cálculo da porcentagem.
             this._operation = [result]; // Atualiza o resultado da porcentagem.
         }else{
@@ -257,7 +274,7 @@ class CalcController {
 
         for (let i = this._operation.length - 1; i >= 0; i--){
    
-                if (this.isOperator(this._operation[i]) == isOperator) { // se apertar número + numero + : 2 + 3 + (5) = 10 = 15 = 20
+                if (this.isOperator(this._operation[i]) === isOperator) { // se apertar número + numero + : 2 + 3 + (5) = 10 = 15 = 20
                     lastItem = this._operation[i]; // O último elemento da array recebe o valor do resultado.
                     break;
                 }
@@ -373,7 +390,8 @@ class CalcController {
                 break;
 
             case 'ponto':
-                this.addDot('.');
+                //this.addDot('.');
+                this.addDot();
                 break;
 
             case '0':
