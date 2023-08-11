@@ -32,12 +32,30 @@ console.log(nome); // Pega o elemento inteiro
 var genero = document.querySelectorAll("#form-user-create [name=gender]:checked"); // [name=gender Busca elementos com name gender, e  :checked que estejam selecionados
 console.log(genero);
 
+
 /* Rotina para ler todos os elementos do formulario com name */
 var fields = document.querySelectorAll("#form-user-create [name]");
+var user = {};
 
 // Para cada linha de código encontrada com campo name executa esse bloco de código:
 fields.forEach(function(field, index){
 
-    console.log(field.id, field.name, field.value, field.checked, index); // Mostra id, nome, valor, checked, indice
+    if(field.name == "gender"){
+        if(field.checked){ //field.checked === true
+            user[field.name] = field.value; // user.gender
+        }
+        
+    }else{
+        user[field.name] = field.value;
+    }
+
+   // console.log(field.id, field.name, field.value, field.checked, index); // Mostra id, nome, valor, checked, indice
 
 });
+
+console.log(user);
+
+// Notação JSON
+var data = { name: "Rafael", sobrenome: "Florentino", idade:29}
+// console.log(data.name);
+// console.log(typeof(data.idade));
