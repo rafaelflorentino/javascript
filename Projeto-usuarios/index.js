@@ -1,3 +1,12 @@
+// instancia a classe UserController 
+let userController = new UserController("form-user-create", "table-users"); // construtor pede como parametro um formulario = "form-user-create", e uma tabela
+
+
+
+
+
+
+// Primeira versão dos códigos
 /**
     window // Navegador, janela
     document // Documento, site
@@ -11,38 +20,38 @@
 */
 
 /* Pegando conteudo do Formulário e pondo em Variáveis */
-var name = document.querySelector("#exampleInputName");
+/*var name = document.querySelector("#exampleInputName");
 var gender = document.querySelectorAll("#form-user-create [name=gender]:checked");
 var birth = document.querySelector("#exampleInputBirth");
 var country = document.querySelector("#exampleInputCountry");
 var email = document.querySelector("#exampleInputEmail");
 var password = document.querySelector("#exampleInputPassword");
 var photo = document.querySelector("#exampleInputFile");
-var admin = document.querySelector("exampleInputAdmin");
+var admin = document.querySelector("exampleInputAdmin");*/
 
 
 /* Mudando propriedades do elemento Selecionado */
-var nome = document.querySelector("#exampleInputnome");
-console.log(nome); // Pega o elemento inteiro
+//var nome = document.querySelector("#exampleInputnome");
+//console.log(nome); // Pega o elemento inteiro
 // console.log(nome.value); // Pega só o valor do elemento
 // nome.style.color = "red"; // Mudar a cor do texto para vermelho
 
 /*  Filtrando busca do formulário botão de rádio selecionado */
 // querySelectorAll busca vários elementos, todos do tipo passado
-var genero = document.querySelectorAll("#form-user-create [name=gender]:checked"); // [name=gender Busca elementos com name gender, e  :checked que estejam selecionados
-console.log(genero);
+/*var genero = document.querySelectorAll("#form-user-create [name=gender]:checked"); // [name=gender Busca elementos com name gender, e  :checked que estejam selecionados
+console.log(genero);*/
 
 
 /* Rotina para ler todos os elementos do formulario com name */
-var fields = document.querySelectorAll("#form-user-create [name]");
-var user = {};
+/*var fields = document.querySelectorAll("#form-user-create [name]");
+var user = {};*/
 
 
-function addLine(dataUser){
+/*function addLine(dataUser){
+
+    console.log(dataUser);
     
-    var tr = document.createElement("tr");
-
-    tr.innerHTML= `  
+    document.getElementById("table-users").innerHTML= `  
     <tr>
         <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
         <td>${dataUser.name}</td>
@@ -55,10 +64,10 @@ function addLine(dataUser){
         </td>
     </tr>    
     `;
-    document.getElementById("table-users").appendChild(tr);
-}
+    // document.getElementById("table-users").appendChild(tr);
+}*/
 
-// Pega o formulário e fica ouvindo o evento de submit
+/*// Pega o formulário e fica ouvindo o evento de submit
 document.getElementById("form-user-create").addEventListener("submit", function(event){
     event.preventDefault(); // Não deixa a página atualizar, apos apertat o botão
     
@@ -73,13 +82,17 @@ document.getElementById("form-user-create").addEventListener("submit", function(
         }else{
             user[field.name] = field.value;
         }
-
+    // user acaba sendo um JSON com dados do usuário != objeto
     // console.log(field.id, field.name, field.value, field.checked, index); // Mostra id, nome, valor, checked, indice
 
     });
-    addLine(user);
 
-})
+    // Cria um objeto intância da clase User.js
+    var objectUser = new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+
+    addLine(objectUser);
+
+});/*
 
 /*
 // Fica ouvindo todos os botões caso algum seja clicado dispara a mensagem para casa botao da lista
@@ -92,7 +105,7 @@ document.querySelectorAll("button").forEach(function(){
 
 
 // Notação JSON
-var data = { name: "Rafael", sobrenome: "Florentino", idade:29}
+//var data = { name: "Rafael", sobrenome: "Florentino", idade:29}
 // console.log(data.name);
 // console.log(typeof(data.idade));
 
