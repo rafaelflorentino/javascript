@@ -42,7 +42,9 @@ class UserController {
         let user = {}; // Essa variável só vai existir dentro desse método
 
         // Percorre cada linha de código encontrada na propriedade elements do formulário
-        this.formEl.elements.forEach(function (field, index) {
+
+        //[this.formEl.elements[0], this.formEl.elements[1], this.formEl.elements[2]]forEach(function (field, index) {
+        [...this.formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
 
             if (field.name == "gender") {
                 if (field.checked) { //field.checked === true
@@ -64,10 +66,8 @@ class UserController {
     }
 
     addLine(dataUser){// tableId = recebe o id de onde irá por os elemento do dataUser
-
-        console.log(dataUser);
         
-        this.tableId.innerHTML= `  
+        this.tableEl.innerHTML= `  
         <tr>
             <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
