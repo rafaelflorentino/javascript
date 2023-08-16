@@ -19,15 +19,19 @@ class UserController {
 
             let values = this.getValues();
 
-            // Gera uma nova imagem com os dados da imagem enviado no upload
-            this.getPhoto((content) =>{
 
-                values.photo = content;
-                this.addLine(values);
+            this.getPhoto().then(
+                (content)=>{
+                    
+                    values.photo = content;
+                    this.addLine(values);
 
-            });
-
-            
+                },
+                (e)=>{
+                    console.error(e);
+                }
+            );
+          
         });
 
 
@@ -45,25 +49,35 @@ class UserController {
         });*/
     }
     // Método para pegar a foto que foi enviada e gerar uma nova foto com os dados da foto original
-    getPhoto(callback){
-        let fileReader = new FileReader();
+    getPhoto(){
 
-        let elements = [...this.formEl.elements].filter(item=>{
-            if(item.name === 'photo'){
-                return item;
+        // Usando Promisse (alternativa para não usar funções de callback)
+        return new Promise((resolve, reject)=>{
+
+            let fileReader = new FileReader();
+
+            let elements = [...this.formEl.elements].filter(item=>{
+                if(item.name === 'photo'){
+                    return item;
+                }
+            });
+            // [0] pega o primeiro elemento da array, e [0] pega o primeiro arquivo da array
+            let file = elements[0].files[0];
+    
+            // Função assíncrona
+            fileReader.onload = ()=>{ // Função de callback, quando terminar de carregar a imagem chama a função
+                resolve(fileReader.result);
+            };
+
+            fileReader.onerror = (e) => {
+                reject(e);
             }
+    
+            fileReader.readAsDataURL(file);
+
         });
-        // [0] pega o primeiro elemento da array, e [0] pega o primeiro arquivo da array
-        let file = elements[0].files[0];
 
-        fileReader.onload = ()=>{ // função de callback, quando terminar de carregar a imagem chama a função
-
-            
-            callback(fileReader.result);
-
-        };
-
-        fileReader.readAsDataURL(file);
+       
     }
 
 
