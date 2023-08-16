@@ -17,7 +17,17 @@ class UserController {
             
             //let user = this.getValues(); // Chama método que pega os valores do formulário.
 
-            this.addLine(this.getValues());
+            let values = this.getValues();
+
+            // Gera uma nova imagem com os dados da imagem enviado no upload
+            this.getPhoto((content) =>{
+
+                values.photo = content;
+                this.addLine(values);
+
+            });
+
+            
         });
 
 
@@ -34,6 +44,28 @@ class UserController {
           
         });*/
     }
+    // Método para pegar a foto que foi enviada e gerar uma nova foto com os dados da foto original
+    getPhoto(callback){
+        let fileReader = new FileReader();
+
+        let elements = [...this.formEl.elements].filter(item=>{
+            if(item.name === 'photo'){
+                return item;
+            }
+        });
+        // [0] pega o primeiro elemento da array, e [0] pega o primeiro arquivo da array
+        let file = elements[0].files[0];
+
+        fileReader.onload = ()=>{ // função de callback, quando terminar de carregar a imagem chama a função
+
+            
+            callback(fileReader.result);
+
+        };
+
+        fileReader.readAsDataURL(file);
+    }
+
 
     // Método para pegar os valores dos campos do formulário
     getValues() {
@@ -69,7 +101,7 @@ class UserController {
         
         this.tableEl.innerHTML= `  
         <tr>
-            <td><img src="dist/img/user1-128x128.jpg" alt="User Image" class="img-circle img-sm"></td>
+            <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
             <td>${dataUser.admin}</td>
