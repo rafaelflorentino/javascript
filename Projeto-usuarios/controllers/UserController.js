@@ -73,7 +73,12 @@ class UserController {
                 reject(e);
             }
     
-            fileReader.readAsDataURL(file);
+            if(file){ // Verifica se algum arquivo foi carregado
+                fileReader.readAsDataURL(file);
+            }else{ // Caso nenhum arquivo seja carregado no butão, chama o resolv mesmo assim
+                resolve('dist/img/boxed-bg.jpg'); // Caso não seja enviada nenhuma imagem coloca essa imagem como padrão
+            }
+            
 
         });
 
@@ -97,7 +102,9 @@ class UserController {
                     user[field.name] = field.value; // user.gender
                 }
 
-            } else {
+            } else if(field.name == "admin"){
+                user[field.name] = field.checked;
+            }else{
                 user[field.name] = field.value;
             }
 
@@ -113,19 +120,21 @@ class UserController {
 
     addLine(dataUser){// tableId = recebe o id de onde irá por os elemento do dataUser
         
-        this.tableEl.innerHTML= `  
-        <tr>
+        let tr = document.createElement('tr');
+
+        tr.innerHTML = `        
             <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
-            <td>${dataUser.admin}</td>
+            <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
             <td>${dataUser.birth}</td>
             <td>
-            <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
-            <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
             </td>
-        </tr>    
         `;
-        // document.getElementById("table-users").appendChild(tr);
+
+        this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
+        
     }
 }
