@@ -14,6 +14,10 @@ class UserController {
         // Como na arrow function não tem a palavra function, o this irá fazer referência direto ao formulário thi.forEl
         this.formEl.addEventListener("submit", event => { 
             event.preventDefault(); // Não deixa a página atualizar, apos apertat o botão
+
+            let btn =  this.formEl.querySelector("[type=submit]"); // pega botão de submit do form
+
+            btn.disabled = true;// Desabilitar o botão para o formulário só ser enviado uma pessoa por vez
             
             //let user = this.getValues(); // Chama método que pega os valores do formulário.
 
@@ -25,6 +29,10 @@ class UserController {
                     
                     values.photo = content;
                     this.addLine(values);
+
+                    this.formEl.reset();
+
+                    btn.disabled = false; // Faz o botão voltar a cadastrar novas pessoas
 
                 },
                 (e)=>{
@@ -127,7 +135,7 @@ class UserController {
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
             <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
-            <td>${dataUser.birth}</td>
+            <td>${dataUser.register}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
