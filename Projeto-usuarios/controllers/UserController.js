@@ -99,11 +99,17 @@ class UserController {
 
         // user por enquanto e apenas um JSON contendo dados para criar um objeto mais na frente, não é um objeto
         let user = {}; // Essa variável só vai existir dentro desse método
+        let isValid = true; // Verifica se o formulário esta válido preenchido
 
         // Percorre cada linha de código encontrada na propriedade elements do formulário
-
         //[this.formEl.elements[0], this.formEl.elements[1], this.formEl.elements[2]]forEach(function (field, index) {
         [...this.formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
+
+        // Verifcar campos vazios obrigatórios
+        if(['name','email','password'].indexOf(field.name) > -1 && !field.value){ // Verifca se não é vazio ou se não existe
+            field.parentElement.classList.add("has-error"); // Acessa classe pai e adiciona classe
+            isValid = false; // deixa o formulário inválido caso os campos obriratórios não tenha sido preenchidos
+        }
 
             if (field.name == "gender") {
                 if (field.checked) { //field.checked === true
@@ -121,6 +127,10 @@ class UserController {
         // Cria um objeto instância da clase User.js
         var objectUser = new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
 
+        if(!isValid){ // Se formulário não estiver preenchido
+            return false; // Para a execução
+        }
+
         // Retorna o objeto
         return objectUser;
         // Ou return new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
@@ -135,7 +145,7 @@ class UserController {
             <td>${dataUser.name}</td>
             <td>${dataUser.email}</td>
             <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
-            <td>${dataUser.register}</td>
+            <td>${Utils.dateFormat(dataUser.register)}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
