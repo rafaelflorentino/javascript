@@ -23,6 +23,7 @@ class UserController {
 
             let values = this.getValues();
 
+            if(!values) return false; // Caso não recebe um objeto encerra
 
             this.getPhoto().then(
                 (content)=>{
@@ -140,6 +141,11 @@ class UserController {
         
         let tr = document.createElement('tr');
 
+        // Por padrão um dataset so consegue receber array, temos que serializar o obejto para array
+        tr.dataset.user = JSON.stringify(dataUser); // Criando dataset (contém as informações do objeto como uma variável)
+        // JSON.stringify converte objeto em string
+
+
         tr.innerHTML = `        
             <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
@@ -153,6 +159,26 @@ class UserController {
         `;
 
         this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
-        
+
+        this.updateCount();
+
+    }
+    // Quantidades de usuários e admin
+    updateCount(){ // tableEl é uma coleção e precisar ser transformado em uma array
+
+        let numberUsers = 0;
+        let numberAdmin = 0;
+
+        [...this.tableEl.children].forEach(tr =>{
+
+            numberUsers++; // Para cada novo usuário cadastrado soma +1 no contador usuários
+
+            let user = JSON.parse(tr.dataset.user); //JSON.parse tranforma string de volta em objeto
+
+            if(user._admin == true) numberAdmin++;
+        });
+
+        document.querySelector("#number-users").innerHTML = numberUsers;
+        document.querySelector("#number-users-admin").innerHTML = numberAdmin;
     }
 }
