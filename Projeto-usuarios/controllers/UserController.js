@@ -5,14 +5,24 @@ class UserController {
         this.formEl = document.getElementById(formId);
         this.tableEl = document.getElementById(tableId);
 
-        this.onSubmit() // Chama o método sem passar nenhum parâmetro
+        this.onSubmit(); // Chama o método sem passar nenhum parâmetro
+
+        this.onEdit(); // Chama o método de cancelar
 
     }
+    // Método cancelar
+    onEdit(){
+        document.querySelector("#box-user-update .btn-cancel").addEventListener("click", e =>{
+            this.showPanelCreate();
+        });
+    }
+
     // Método para toda vez que for enviado o formulário
     onSubmit() {
 
         // Como na arrow function não tem a palavra function, o this irá fazer referência direto ao formulário thi.forEl
         this.formEl.addEventListener("submit", event => { 
+
             event.preventDefault(); // Não deixa a página atualizar, apos apertat o botão
 
             let btn =  this.formEl.querySelector("[type=submit]"); // pega botão de submit do form
@@ -112,7 +122,7 @@ class UserController {
             isValid = false; // deixa o formulário inválido caso os campos obriratórios não tenha sido preenchidos
         }
 
-            if (field.name == "gender") {
+            if (field.name === "gender") {
                 if (field.checked) { //field.checked === true
                     user[field.name] = field.value; // user.gender
                 }
@@ -126,16 +136,28 @@ class UserController {
         });
 
         // Cria um objeto instância da clase User.js
-        var objectUser = new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+        //var objectUser = new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
 
         if(!isValid){ // Se formulário não estiver preenchido
             return false; // Para a execução
         }
 
         // Retorna o objeto
-        return objectUser;
+        //return objectUser;
         // Ou return new User(user.name, user.gender, user.birth, user.country, user.email, user.password, user.photo, user.admin);
+            
+        return new User(
+            user.name, 
+            user.gender, 
+            user.birth, 
+            user.country, 
+            user.email, 
+            user.password, 
+            user.photo, 
+            user.admin
+        );
     }
+
 
     addLine(dataUser){// tableId = recebe o id de onde irá por os elemento do dataUser
         
@@ -153,16 +175,32 @@ class UserController {
             <td>${(dataUser.admin) ? 'Sim' : 'Não'}</td>
             <td>${Utils.dateFormat(dataUser.register)}</td>
             <td>
-                <button type="button" class="btn btn-primary btn-xs btn-flat">Editar</button>
+                <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
                 <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
             </td>
         `;
+
+        tr.querySelector(".btn-edit").addEventListener("click", e=>{
+            console.log(JSON.parse(tr.dataset.user));
+            this.showPanelUpdate();
+        });
 
         this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
 
         this.updateCount();
 
     }
+
+    showPanelCreate(){
+        document.querySelector("#form-user-create").style.display="block";
+        document.querySelector("#form-user-update").style.display="none";
+    }
+
+    showPanelUpdate(){
+        document.querySelector("#form-user-create").style.display="none";
+        document.querySelector("#form-user-update").style.display="block";
+    }
+
     // Quantidades de usuários e admin
     updateCount(){ // tableEl é uma coleção e precisar ser transformado em uma array
 
