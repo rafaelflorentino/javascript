@@ -181,7 +181,41 @@ class UserController {
         `;
 
         tr.querySelector(".btn-edit").addEventListener("click", e=>{
-            console.log(JSON.parse(tr.dataset.user));
+
+            let json = console.log(JSON.parse(tr.dataset.user));
+            let form = document.querySelector("#form-user-update");
+
+            for( let name in json){
+               let field = form.querySelector("[name="+ name.replace("_", "")+ "]");// procura elemento e tira o _ do nome
+
+              
+
+               if(field){ // Verificar se o campo existe
+
+                   // if(field.type == 'file') continue; // se for file passa pro próximo campo
+
+                switch (field.type){
+                    case 'file':
+                        continue;
+                        break;
+
+                    case 'radio' :
+                        field = form.querySelector("[name="+ name.replace("_", "")+ "][value="+ json[name]+"]");
+                        field.checked = true;
+                        break;
+                      case 'checkbox':
+                        field.checked = json[name];
+                      break;
+
+                      default:
+                        field.value = json[name];
+                }
+
+                   
+               }
+               
+            }
+
             this.showPanelUpdate();
         });
 
@@ -192,13 +226,13 @@ class UserController {
     }
 
     showPanelCreate(){
-        document.querySelector("#form-user-create").style.display="block";
-        document.querySelector("#form-user-update").style.display="none";
+        document.querySelector("#box-user-create").style.display="block";
+        document.querySelector("#box-user-update").style.display="none";
     }
 
     showPanelUpdate(){
-        document.querySelector("#form-user-create").style.display="none";
-        document.querySelector("#form-user-update").style.display="block";
+        document.querySelector("#box-user-create").style.display="none";
+        document.querySelector("#box-user-update").style.display="block";
     }
 
     // Quantidades de usuários e admin
