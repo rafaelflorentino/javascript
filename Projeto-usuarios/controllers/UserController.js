@@ -1,8 +1,9 @@
 class UserController {
 
-    constructor(formId, tableId) { // Precisa de um formulário(Receber dados dele), Precisa de uma tabela(Imprimir dados nela)
+    constructor(formIdCreate, formIdUpdate,tableId) { // Precisa de um formulário(Receber dados dele), Precisa de uma tabela(Imprimir dados nela)
 
-        this.formEl = document.getElementById(formId);
+        this.formEl = document.getElementById(formIdCreate);
+        this.formUpdateEl = document.getElementById(formIdUpdate);
         this.tableEl = document.getElementById(tableId);
 
         this.onSubmit(); // Chama o método sem passar nenhum parâmetro
@@ -14,6 +15,40 @@ class UserController {
     onEdit(){
         document.querySelector("#box-user-update .btn-cancel").addEventListener("click", e =>{
             this.showPanelCreate();
+        });
+
+        this.formUpdateEl.addEventListener("submit", event =>{
+            event.preventDefault();
+
+            let btn =  this.formUpdateEl.querySelector("[type=submit]"); // pega botão de submit do form
+
+            btn.disabled = true;
+
+            let values = this.getValues(this.formUpdateEl);
+
+            console.log(values);
+
+            let index = this.formUpdateEl.dataset.trIndex;
+
+            let tr = this.tableEl.rows[index]; 
+
+           tr.dataset.user = JSON.stringify(values); // pega a tr que quero atualizar
+
+           tr.innerHTML = `        
+           <td><img src="${values.photo}" alt="User Image" class="img-circle img-sm"></td>
+           <td>${values.name}</td>
+           <td>${values.email}</td>
+           <td>${(values.admin) ? 'Sim' : 'Não'}</td>
+           <td>${Utils.dateFormat(values.register)}</td>
+           <td>
+               <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
+               <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+           </td>
+       `;
+
+          this.addEventsTr(tr);
+
+          this.updateCount();
         });
     }
 
@@ -31,7 +66,7 @@ class UserController {
             
             //let user = this.getValues(); // Chama método que pega os valores do formulário.
 
-            let values = this.getValues();
+            let values = this.getValues(this.formEl);
 
             if(!values) return false; // Caso não recebe um objeto encerra
 
@@ -106,7 +141,7 @@ class UserController {
 
 
     // Método para pegar os valores dos campos do formulário
-    getValues() {
+    getValues(formEl) {
 
         // user por enquanto e apenas um JSON contendo dados para criar um objeto mais na frente, não é um objeto
         let user = {}; // Essa variável só vai existir dentro desse método
@@ -114,7 +149,7 @@ class UserController {
 
         // Percorre cada linha de código encontrada na propriedade elements do formulário
         //[this.formEl.elements[0], this.formEl.elements[1], this.formEl.elements[2]]forEach(function (field, index) {
-        [...this.formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
+        [...formEl.formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
 
         // Verifcar campos vazios obrigatórios
         if(['name','email','password'].indexOf(field.name) > -1 && !field.value){ // Verifca se não é vazio ou se não existe
@@ -180,10 +215,22 @@ class UserController {
             </td>
         `;
 
+        this.addEventsTr(tr);
+
+      
+        this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
+
+        this.updateCount();
+
+    }
+
+    addEventsTr(tr){
         tr.querySelector(".btn-edit").addEventListener("click", e=>{
 
             let json = console.log(JSON.parse(tr.dataset.user));
             let form = document.querySelector("#form-user-update");
+
+            form.dataset.trIndex = tr.sectionRowIndex;
 
             for( let name in json){
                let field = form.querySelector("[name="+ name.replace("_", "")+ "]");// procura elemento e tira o _ do nome
@@ -218,10 +265,6 @@ class UserController {
 
             this.showPanelUpdate();
         });
-
-        this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
-
-        this.updateCount();
 
     }
 

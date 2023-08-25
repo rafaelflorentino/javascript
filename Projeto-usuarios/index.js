@@ -1,5 +1,5 @@
 // instancia a classe UserController 
-let userController = new UserController("form-user-create", "table-users"); // construtor pede como parametro um formulario = "form-user-create", e uma tabela
+let userController = new UserController("form-user-create", "form-user-update", "table-users"); // construtor pede como parametro um formulario = "form-user-create", e uma tabela
 
 
 
