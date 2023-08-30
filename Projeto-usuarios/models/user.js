@@ -47,4 +47,19 @@ class User{
     set photo(value){
         this._photo = value;
     }
+
+
+    loadFromJSON(json){
+        for(let name in json){
+            switch(name){
+                case '_register':
+                    this[name] = new Date(json[name]); // se for register tranforma em uma data
+                    break;
+                default:
+                    this[name] = json[name];                    
+            }
+
+            this[name] = json[name];
+        }
+    }
 }

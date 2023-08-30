@@ -7,8 +7,8 @@ class UserController {
         this.tableEl = document.getElementById(tableId);
 
         this.onSubmit(); // Chama o método sem passar nenhum parâmetro
-
         this.onEdit(); // Chama o método de cancelar
+        this.selectAll();
 
     }
     // Método cancelar
@@ -26,29 +26,52 @@ class UserController {
 
             let values = this.getValues(this.formUpdateEl);
 
-            console.log(values);
-
             let index = this.formUpdateEl.dataset.trIndex;
 
             let tr = this.tableEl.rows[index]; 
 
-           tr.dataset.user = JSON.stringify(values); // pega a tr que quero atualizar
+            let userOld = JSON.parse(tr.dataset.user);
 
-           tr.innerHTML = `        
-           <td><img src="${values.photo}" alt="User Image" class="img-circle img-sm"></td>
-           <td>${values.name}</td>
-           <td>${values.email}</td>
-           <td>${(values.admin) ? 'Sim' : 'Não'}</td>
-           <td>${Utils.dateFormat(values.register)}</td>
-           <td>
-               <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-               <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-           </td>
-       `;
+            let result = Object.assign({}, userOld, values); // substitui, sobrescreve os valores antigos
 
-          this.addEventsTr(tr);
+          this.getPhoto(this.formUpdateEl).then(
+            (content)=>{
+                if(!values.photo){
+                    result._photo = userOld_photo;
+                } else{
+                    result._photo = content;
+                }
 
-          this.updateCount();
+                tr.dataset.user = JSON.stringify(result); // pega a tr que quero atualizar
+
+                tr.innerHTML = `        
+                    <td><img src="${result._photo}" alt="User Image" class="img-circle img-sm"></td>
+                    <td>${result._name}</td>
+                    <td>${result._email}</td>
+                    <td>${(result._admin) ? 'Sim' : 'Não'}</td>
+                    <td>${Utils.dateFormat(result._register)}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
+                        <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                    </td>
+                `;
+     
+               this.addEventsTr(tr);
+     
+               this.updateCount();                
+               
+                this.formUpdateEl.reset();
+
+                this.showPanelCreate();
+
+                btn.disabled = false; // Faz o botão voltar a cadastrar novas pessoas
+
+            },
+            (e)=>{
+                console.error(e);
+            }
+        );     
+
         });
     }
 
@@ -70,10 +93,13 @@ class UserController {
 
             if(!values) return false; // Caso não recebe um objeto encerra
 
-            this.getPhoto().then(
+            this.getPhoto(this.formEl).then(
                 (content)=>{
                     
                     values.photo = content;
+
+                    this.insert(values);
+
                     this.addLine(values);
 
                     this.formEl.reset();
@@ -88,29 +114,17 @@ class UserController {
           
         });
 
-
-    // Outro jeito
-     /*  let _this = this;  // Pega o formulário e salva nessa variavel interna, para ser acessada mais a frente
-    
-       // Fica ouvindo o formulário caso seja submetido
-       this.formEl.addEventListener("submit", function (event) { // this.formEl = document.getElementById("form-user-create")
-
-            event.preventDefault(); // Não deixa a página atualizar, apos apertat o botão
-            // _this e necessário por estar dentro de uma function, para poder chamr o formulário e nao o evento da função
-            _this.getValues(); // Chama o Método para pegar os valores dos campos do formulário
-            // this.getValues(); iria referenciar apenas a função que ele esta dentro e não pegaria o formulário, por causa do escopo
-          
-        });*/
     }
+
     // Método para pegar a foto que foi enviada e gerar uma nova foto com os dados da foto original
-    getPhoto(){
+    getPhoto(formEl){
 
         // Usando Promisse (alternativa para não usar funções de callback)
         return new Promise((resolve, reject)=>{
 
             let fileReader = new FileReader();
 
-            let elements = [...this.formEl.elements].filter(item=>{
+            let elements = [...formEl.elements].filter(item=>{
                 if(item.name === 'photo'){
                     return item;
                 }
@@ -149,7 +163,7 @@ class UserController {
 
         // Percorre cada linha de código encontrada na propriedade elements do formulário
         //[this.formEl.elements[0], this.formEl.elements[1], this.formEl.elements[2]]forEach(function (field, index) {
-        [...formEl.formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
+        [...formEl.elements].forEach(function (field, index) { // ... spread  //ler objeto e diferente de ler array
 
         // Verifcar campos vazios obrigatórios
         if(['name','email','password'].indexOf(field.name) > -1 && !field.value){ // Verifca se não é vazio ou se não existe
@@ -192,9 +206,40 @@ class UserController {
             user.admin
         );
     }
+    getUsersStorage(){
+        let users = [];
+        if(sessionStorage.getItem("users")){ // verifica se já tem itens na array e  pega os dados
+            users = JSON.parse(sessionStorage.getItem("users"));
+        }  
+        return users;  
+    }
+
+    selectAll(){
+        let users = this.getUsersStorage();
+
+        users.forEach(dataUser => {
+
+            let user = new User();
+
+            user.loadFrom(dataUser);
+
+            this.addLine(user);
+        })
+    }
+
+    insert(data){
+        let users = this.getUsersStorage();
+        
+        users.push(data); // adiciona novo dado ao final da array
+
+        sessionStorage.setItem("users", JSON.stringify(users));
+
+      // localStorage.setItem("users", JSON.stringify(users)); // local storage
+    }
 
 
     addLine(dataUser){// tableId = recebe o id de onde irá por os elemento do dataUser
+
         
         let tr = document.createElement('tr');
 
@@ -211,7 +256,7 @@ class UserController {
             <td>${Utils.dateFormat(dataUser.register)}</td>
             <td>
                 <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
+                <button type="button" class="btn btn-danger btn-delete btn-xs btn-flat">Excluir</button>
             </td>
         `;
 
@@ -225,17 +270,25 @@ class UserController {
     }
 
     addEventsTr(tr){
+
+        // Evento de deletar
+        tr.querySelector(".btn-delete").addEventListener("click", e=>{
+            if(confirm("Deseja realmente excluir?")){ // mensagem de alerte com opçoes
+                tr.remove(); // remove elemento
+                this.updateCount();
+            }
+        });
+
+        // Evento de editar
         tr.querySelector(".btn-edit").addEventListener("click", e=>{
 
-            let json = console.log(JSON.parse(tr.dataset.user));
-            let form = document.querySelector("#form-user-update");
+            let json = JSON.parse(tr.dataset.user);
+            //let form = document.querySelector("#form-user-update");
 
-            form.dataset.trIndex = tr.sectionRowIndex;
+            this.formUpdateEl.dataset.trIndex = tr.sectionRowIndex;
 
             for( let name in json){
-               let field = form.querySelector("[name="+ name.replace("_", "")+ "]");// procura elemento e tira o _ do nome
-
-              
+               let field = this.formUpdateEl.querySelector("[name="+ name.replace("_", "")+ "]");// procura elemento e tira o _ do nome
 
                if(field){ // Verificar se o campo existe
 
@@ -247,7 +300,7 @@ class UserController {
                         break;
 
                     case 'radio' :
-                        field = form.querySelector("[name="+ name.replace("_", "")+ "][value="+ json[name]+"]");
+                        field =  this.formUpdateEl.querySelector("[name="+ name.replace("_", "")+ "][value="+ json[name]+"]");
                         field.checked = true;
                         break;
                       case 'checkbox':
@@ -258,10 +311,13 @@ class UserController {
                         field.value = json[name];
                 }
 
+                field.value = json[name];
                    
                }
                
             }
+
+            this.formUpdateEl.querySelector(".photo").src = json._photo;
 
             this.showPanelUpdate();
         });
