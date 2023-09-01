@@ -1,10 +1,5 @@
-// instancia a classe UserController 
+// Instância a classe UserController 
 let userController = new UserController("form-user-create", "form-user-update", "table-users"); // construtor pede como parametro um formulario = "form-user-create", e uma tabela
-
-
-
-
-
 
 // Primeira versão dos códigos
 /**
