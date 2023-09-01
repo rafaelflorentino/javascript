@@ -37,31 +37,23 @@ class UserController {
           this.getPhoto(this.formUpdateEl).then(
             (content)=>{
                 if(!values.photo){
-                    result._photo = userOld_photo;
+                    result._photo = userOld._photo;
                 } else{
                     result._photo = content;
                 }
 
-                tr.dataset.user = JSON.stringify(result); // pega a tr que quero atualizar
+                let user = new User();
 
-                tr.innerHTML = `        
-                    <td><img src="${result._photo}" alt="User Image" class="img-circle img-sm"></td>
-                    <td>${result._name}</td>
-                    <td>${result._email}</td>
-                    <td>${(result._admin) ? 'Sim' : 'Não'}</td>
-                    <td>${Utils.dateFormat(result._register)}</td>
-                    <td>
-                        <button type="button" class="btn btn-primary btn-edit btn-xs btn-flat">Editar</button>
-                        <button type="button" class="btn btn-danger btn-xs btn-flat">Excluir</button>
-                    </td>
-                `;
-     
-               this.addEventsTr(tr);
-     
-               this.updateCount();                
-               
+                user.loadFromJSON(result);
+
+                user.save();
+
+                this.getTr(user, tr);
+
+                this.updateCount();
+
                 this.formUpdateEl.reset();
-
+        
                 this.showPanelCreate();
 
                 btn.disabled = false; // Faz o botão voltar a cadastrar novas pessoas
@@ -98,7 +90,7 @@ class UserController {
                     
                     values.photo = content;
 
-                    this.insert(values);
+                    values.save();
 
                     this.addLine(values);
 
@@ -206,28 +198,22 @@ class UserController {
             user.admin
         );
     }
-    getUsersStorage(){
-        let users = [];
-        if(sessionStorage.getItem("users")){ // verifica se já tem itens na array e  pega os dados
-            users = JSON.parse(sessionStorage.getItem("users"));
-        }  
-        return users;  
-    }
+
 
     selectAll(){
-        let users = this.getUsersStorage();
+        let users = User.getUsersStorage();
 
         users.forEach(dataUser => {
 
             let user = new User();
 
-            user.loadFrom(dataUser);
+            user.loadFromJSON(dataUser);
 
             this.addLine(user);
-        })
+        });
     }
 
-    insert(data){
+   /* insert(data){
         let users = this.getUsersStorage();
         
         users.push(data); // adiciona novo dado ao final da array
@@ -235,19 +221,26 @@ class UserController {
         sessionStorage.setItem("users", JSON.stringify(users));
 
       // localStorage.setItem("users", JSON.stringify(users)); // local storage
-    }
+    }*/
 
-
+    // Adiciona uma nova linha tr na tabela
     addLine(dataUser){// tableId = recebe o id de onde irá por os elemento do dataUser
 
-        
-        let tr = document.createElement('tr');
+        let tr = this.getTr(dataUser);
+      
+        this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
 
-        // Por padrão um dataset so consegue receber array, temos que serializar o obejto para array
+        this.updateCount();
+
+    }
+
+    // Seleciona a tr que será gerada
+    getTr(dataUser, tr = null){
+
+        if(tr === null) tr = document.createElement('tr');
+
         tr.dataset.user = JSON.stringify(dataUser); // Criando dataset (contém as informações do objeto como uma variável)
-        // JSON.stringify converte objeto em string
-
-
+        
         tr.innerHTML = `        
             <td><img src="${dataUser.photo}" alt="User Image" class="img-circle img-sm"></td>
             <td>${dataUser.name}</td>
@@ -262,11 +255,7 @@ class UserController {
 
         this.addEventsTr(tr);
 
-      
-        this.tableEl.appendChild(tr); // appendChild adiciona no final, innerHTML substitui e apaga conteúdo antigo
-
-        this.updateCount();
-
+        return tr;
     }
 
     addEventsTr(tr){
@@ -274,7 +263,14 @@ class UserController {
         // Evento de deletar
         tr.querySelector(".btn-delete").addEventListener("click", e=>{
             if(confirm("Deseja realmente excluir?")){ // mensagem de alerte com opçoes
+                let user = new User(JSON.parse(tr.dataset.user));
+
+                user.loadFromJSON();
+
+                user.remove();
+
                 tr.remove(); // remove elemento
+                
                 this.updateCount();
             }
         });
