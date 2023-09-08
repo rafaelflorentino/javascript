@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>
+        <a href="#" id="oliver" class="verde" title="Tolltip1">Oliver</a>
+    </p>
+    <div>
+        <a href="#" id="home" title="Tolltip2">Home</a>
+    </div>
+
+    <div>
+        <a href="https://www.google.com/" id="google" title="Tolltip3">Google</a>
+    </div>
+
+    <div>
+        <a href="https://www.google.com/" id="abrir" title="Tolltip4">Open</a>
+    </div>
+    <script>
+        /*var Core = {};
+                  if(document.addEventListener){
+                      Core.addEventListener = function(target, type, listener){
+                          target.addEventListener(type,listener, false)
+                      };
+                  }*/
+
+        window.onload = function () {
+            var allLinks = document.getElementsByTagName("a");
+
+            for (let i = 0; i < allLinks.length; i++) {
+                var title = allLinks[i].getAttribute("title");
+                if (title && title.length > 0) { // verifica se tem o elemento e se ele tem masi que zero caracteres
+                    // window.addEventListener(link[i], "mouseover", Tooltips.showTipListener);
+                    // window.addEventListener(link[i], "focus", Tooltips.showTipListener);
+                    // window.addEventListener(link[i], "mouseout", Tooltips.hideTiplistener);
+                    // window.addEventListener(link[i], "blur", Tooltips.hideTiplistener);
+                    // this.addEventListener("mouseover", showTipListener, false);
+                    // this.addEventListener("focus", showTipListener, false);
+                    // this.addEventListener("mouseout", hideTiplistener, false);
+                    // this.addEventListener("blur", hideTiplistener, false);
+                }
+
+            }
+        }
+       
+        function criarTool(link){
+            var tip = document.createElement("span");
+            tip.className = "tooltip";
+            var tipText = document.createTextNode(link.title);
+            link.appendChild(tip);
+        }
+
+        var oliver = document.getElementById("")
+
+
+
+        // Métodos receptores
+        function showTipListener(event) {
+
+        }
+
+        function hideTiplistener(event) {
+           
+        }
+
+    </script>
+</body>
+
+</html>

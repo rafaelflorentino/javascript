@@ -34,8 +34,20 @@
 
 
     <p>
-        <a href="#" id="oliver" class="verde">Oliver</a>
+        <a href="#" id="oliver" class="verde"  title="Tolltip1">Oliver</a>
     </p>
+    <div>
+        <a href="#" id="home" title="Tolltip2">Home</a>
+    </div>
+
+    <div>
+        <a href="https://www.google.com/" id="google" title="Tolltip3">Google</a>
+    </div>
+
+    <div>
+        <a href="https://www.google.com/" id="abrir" title="Tolltip4">Open</a>
+    </div>
+
 
     <ul id="baldwins">
         <li>Alec</li>
@@ -44,37 +56,37 @@
         <li>Stephen</li>
     </ul>
 
-
-    <table class="dataTable" id="tabela">
-        <thead>
-            <th>nome</th>
-            <th>idade</th>
-            <th>cor</th>
-        </thead>
-        <tbody>
-            <tr>
-                <td>John Allsopp</td>
-                <td>28</td>
-                <td>Branco</td>
-            </tr>
-            <tr>
-                <td>Mary Allsopp</td>
-                <td>27</td>
-                <td>Parda</td>
-            </tr>
-            <tr>
-                <td>Peter Park</td>
-                <td>44</td>
-                <td>negro</td>
-            </tr>
-            <tr>
-                <td>Kamila</td>
-                <td>19</td>
-                <td>Branca</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <div id="pai">
+        <table class="dataTable" id="tabela">
+            <thead>
+                <th>nome</th>
+                <th>idade</th>
+                <th>cor</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>John Allsopp</td>
+                    <td>28</td>
+                    <td>Branco</td>
+                </tr>
+                <tr>
+                    <td>Mary Allsopp</td>
+                    <td>27</td>
+                    <td>Parda</td>
+                </tr>
+                <tr>
+                    <td>Peter Park</td>
+                    <td>44</td>
+                    <td>negro</td>
+                </tr>
+                <tr>
+                    <td>Kamila</td>
+                    <td>19</td>
+                    <td>Branca</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <table class="dataTable" id="tabela2">
         <thead>
@@ -229,7 +241,7 @@
             console.log(nome.href);
 
             // Inserir atributos
-            nome.setAttribute("href", "index.html");
+            nome.setAttribute("href", "https://www.google.com/");
             nome.setAttribute("title", "Titulo");
 
             // alterar estilo
@@ -259,6 +271,98 @@
                         linhas[k].classList.add('green');                         
                     }
                 }
+
+                // Eventos
+
+/*                var Sair = {
+                    init: function(){
+                        var link = document.getElementById("home");
+                        link.onclick = Sair.cllickHandler;
+                    },
+
+                    cllickHandler: function(){
+                        alert("Não acredito em tudo oque você lê no Wikipedia!");
+                    }
+                };
+                Sair.cllickHandler();*/
+
+                // Função de click
+                var link = document.getElementById("home");
+                link.onclick = cllickHandler;
+
+                function cllickHandler(){
+                    alert("Não acredito em tudo oque você lê no Wikipedia!");
+                }
+
+                // Função de click
+                var google = document.getElementById("google");
+                google.onclick = naoSair;
+
+                function naoSair(){
+                    if(!confirm("Você deseja sair do site:")){
+                        return false;
+                    }
+                   // return confirm("Você deseja sair do site:"); // versão reduzida
+                }
+
+                // função open
+                var abrir = document.getElementById("abrir");
+                abrir.onclick = ir;
+
+                function ir(){
+                    open(this.href); // O open abri uma nova aba sem recarregar a página original, this.href pega o link dele próprio 
+                    //open("https://www.google.com/"); ou link passado
+                    return false;
+                }
+
+                // Quando a página e carregada
+                window.onload = function () { 
+                    console.log("A Página Está carregado!");
+                } 
+
+                // Quando for sair da página 
+                window.onbeforeunload = function(){
+                    return "Deseja mesmo sair do site?"
+                };
+
+                // Todos os links
+                var todosLinks = document.getElementsByTagName('a'); // pega todos os links
+
+                for (let i = 0; i < todosLinks.length; i++) { // fica ouvindo os links
+                   todosLinks[i].onclick = msg;                  
+                }
+                function msg(){
+                    console.log("Voce cliclou no link: "+this.href); // pega a url do link clicado
+                }
+
+                // Receptor de Evento
+
+                //elemento.addEventListener("evento", receptorDeEvento, false); Todos Navegadores
+                //elemento.attachEvent("onclick", funcaoLink.clickListenner); IE
+
+                var minhasLi = document.getElementById("oliver");
+                minhasLi.addEventListener("click", clickLi, false);
+                //minhasLi.removeEventListener("click", clickLi, false); // Se quiser remover o envento
+                function clickLi(event){
+                    event.preventDefault();// equivale o return false, mas e usado em receptores de evento
+                    console.log("clicou no oliver");
+                    event.stopPropagation(); // impede que evento se propague
+                }
+
+                window.addEventListener ("load", function () { // espera toda pagina carregar para só assim executar a função
+                    document.getElementById("berenger").onclick = function(){
+                        console.log("berenger");
+                        
+                    }
+                });
+
+                window.onload = function(){// espera toda pagina carregar para só assim executar a função
+                    document.getElementById("tabela").onclick = function(){
+                        console.log("tabela");
+                    }
+                }
+              
+
 
     </script>
 </body>
