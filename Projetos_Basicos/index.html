@@ -8,6 +8,13 @@
         .red{
             color: red;
         }
+        .green{
+            background-color: green;
+        }
+        .black{
+            background-color: black;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -36,6 +43,109 @@
         <li>William</li>
         <li>Stephen</li>
     </ul>
+
+
+    <table class="dataTable" id="tabela">
+        <thead>
+            <th>nome</th>
+            <th>idade</th>
+            <th>cor</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Allsopp</td>
+                <td>28</td>
+                <td>Branco</td>
+            </tr>
+            <tr>
+                <td>Mary Allsopp</td>
+                <td>27</td>
+                <td>Parda</td>
+            </tr>
+            <tr>
+                <td>Peter Park</td>
+                <td>44</td>
+                <td>negro</td>
+            </tr>
+            <tr>
+                <td>Kamila</td>
+                <td>19</td>
+                <td>Branca</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <table class="dataTable" id="tabela2">
+        <thead>
+            <th>nome</th>
+            <th>idade</th>
+            <th>cor</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Allsopp</td>
+                <td>28</td>
+                <td>Branco</td>
+            </tr>
+            <tr>
+                <td>Mary Allsopp</td>
+                <td>27</td>
+                <td>Parda</td>
+            </tr>
+            <tr>
+                <td>Peter Park</td>
+                <td>44</td>
+                <td>negro</td>
+            </tr>
+            <tr>
+                <td>Kamila</td>
+                <td>19</td>
+                <td>Branca</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="dataTable" id="tabela3">
+        <thead>
+            <th>nome</th>
+            <th>idade</th>
+            <th>cor</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Allsopp</td>
+                <td>28</td>
+                <td>Branco</td>
+            </tr>
+            <tr>
+                <td>Mary Allsopp</td>
+                <td>27</td>
+                <td>Parda</td>
+            </tr>
+            <tr>
+                <td>Peter Park</td>
+                <td>44</td>
+                <td>Negro</td>
+            </tr>
+            <tr>
+                <td>Kamila</td>
+                <td>19</td>
+                <td>Branca</td>
+            </tr>
+            <tr>
+                <td>Carlos</td>
+                <td>67</td>
+                <td>negro</td>
+            </tr>
+            <tr>
+                <td>Marlene</td>
+                <td>87</td>
+                <td>Parda</td>
+            </tr>
+        </tbody>
+    </table>
+
 
     <script>
 
@@ -129,17 +239,27 @@
             var body = document.getElementsByTagName("body")[0];
             body.style.backgroundColor = "gray";
 
-            var addClass = function(target, theClass){
-                if(!addClass(target, theClass)){
-                    if(target.className == ""){
-                        target.className = theClass;
-                    }else{
-                        target.className += " " + theClass;
+            // Listrar tabelas
+            var tabela = document.getElementsByTagName("table");
+
+                // Tabelas zebradas
+                
+                // Pegar titulos
+                var th = document.getElementsByTagName("thead");
+                for (let i = 0; i < th.length; i++) {
+                   th[i].classList.add('black');   
+                }
+
+                // Pegar tr impares do tbody
+                var tr = document.getElementsByTagName("tbody");
+                for (let i = 0; i < tr.length; i++) {
+
+                    var linhas = tr[i].getElementsByTagName("tr");
+                    for (let k = 0; k < linhas.length; k+=2) {
+                        linhas[k].classList.add('green');                         
                     }
                 }
-            };
-            var body = document.getElementsByTagName("body")[0];
-            addClass("body", "red");
+
     </script>
 </body>
 </html>
