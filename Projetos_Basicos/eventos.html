@@ -5,71 +5,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+* {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body,
+      html {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+      p {
+        font-size: 1rem;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      p:after {
+        content: attr(data-tooltip);
+        color: white;
+        background-color: black;
+        opacity: 0;
+        position: absolute;
+        z-index: 3;
+        border-radius: 5px;
+        width: 120px;
+        height: 20px;
+        font-size: .8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        transition: opacity .25s ease-in-out;
+      }
+      p:hover:after {
+        opacity: 1;
+        visibility: visible;
+      }
+      a {
+        font-size: 1rem;
+        position: relative;
+        margin-bottom: 20px;
+      }
+      a:after {
+        content: attr(data-tooltip);
+        color: white;
+        background-color: black;
+        opacity: 0;
+        position: absolute;
+        z-index: 3;
+        border-radius: 5px;
+        width: 120px;
+        height: 20px;
+        font-size: .8rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        visibility: hidden;
+        transition: opacity .25s ease-in-out;
+      }
+      a:hover:after {
+        opacity: 1;
+        visibility: visible;
+      }
+      [data-position="top"]::after {
+        top: -25px;
+        left: 23px;
+      }
+      [data-position="left"]::after {
+        top: -3px;
+        left: -125px;
+      }
+      [data-position="right"]::after {
+        top: -3px;
+        right: -72px;
+      }
+      [data-position="bottom"]::after {
+        bottom: -25px;
+        left: 18px;
+      }
+      .tooltip::after{
+        background-color: red;
+        padding: 15px;
+        text-transform: uppercase;
+      }
+    </style>
 </head>
 
 <body>
-    <p>
-        <a href="#" id="oliver" class="verde" title="Tolltip1">Oliver</a>
-    </p>
-    <div>
-        <a href="#" id="home" title="Tolltip2">Home</a>
-    </div>
-
-    <div>
-        <a href="https://www.google.com/" id="google" title="Tolltip3">Google</a>
-    </div>
-
-    <div>
-        <a href="https://www.google.com/" id="abrir" title="Tolltip4">Open</a>
-    </div>
-    <script>
-        /*var Core = {};
-                  if(document.addEventListener){
-                      Core.addEventListener = function(target, type, listener){
-                          target.addEventListener(type,listener, false)
-                      };
-                  }*/
-
-        window.onload = function () {
-            var allLinks = document.getElementsByTagName("a");
-
-            for (let i = 0; i < allLinks.length; i++) {
-                var title = allLinks[i].getAttribute("title");
-                if (title && title.length > 0) { // verifica se tem o elemento e se ele tem masi que zero caracteres
-                    // window.addEventListener(link[i], "mouseover", Tooltips.showTipListener);
-                    // window.addEventListener(link[i], "focus", Tooltips.showTipListener);
-                    // window.addEventListener(link[i], "mouseout", Tooltips.hideTiplistener);
-                    // window.addEventListener(link[i], "blur", Tooltips.hideTiplistener);
-                    // this.addEventListener("mouseover", showTipListener, false);
-                    // this.addEventListener("focus", showTipListener, false);
-                    // this.addEventListener("mouseout", hideTiplistener, false);
-                    // this.addEventListener("blur", hideTiplistener, false);
-                }
-
-            }
-        }
-       
-        function criarTool(link){
-            var tip = document.createElement("span");
-            tip.className = "tooltip";
-            var tipText = document.createTextNode(link.title);
-            link.appendChild(tip);
-        }
-
-        var oliver = document.getElementById("")
-
-
-
-        // Métodos receptores
-        function showTipListener(event) {
-
-        }
-
-        function hideTiplistener(event) {
-           
-        }
-
-    </script>
+    <div class="container">
+        <p data-tooltip="Eu sou um tooltip" data-position="top">Tooltip na parte superior</p>
+        <p data-tooltip="Eu sou um tooltip" data-position="left">Tooltip na esquerda</p>
+        <p data-tooltip="Eu sou um tooltip" data-position="right">Tooltip na direita</p>
+        <p data-tooltip="Eu sou um tooltip" data-position="bottom">Tooltip na parte inferior</p>
+      </div>
+      <div>
+        <a href="#">link1</a>
+        <a href="#">link2</a>
+        <a href="#">link3</a>
+        <a href="#">link4</a>
+      </div>
+      <div> 
+        <h1 title="Tolltip Simples">Tem tooltip simples</h1>
+      </div>
+ <script>
+    window.onload = function(){// espera toda pagina carregar para só assim executar a função
+        var links = document.getElementsByTagName('a');
+        for (let i = 0; i < links.length; i++) {
+             links[i].setAttribute('class', 'tooltip');
+             links[i].setAttribute('data-tooltip', 'Eu sou um tooltip: '+i);
+             links[i].setAttribute('data-position', 'top');
+            // console.log(links[i]);        
+        }     
+    }
+ </script>
 </body>
-
 </html>

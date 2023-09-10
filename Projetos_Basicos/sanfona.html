@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        .container{
+            padding: 20px;
+        }
+        h1{
+            margin-bottom: 10px;
+        }
+        h2, p, h3{
+            text-indent: 10px;
+        }
+        h2{
+            background: #151515;
+            padding: 5px;
+            cursor: pointer;
+        }
+        h2 a{
+            color: white;
+            text-decoration: none;
+            width: 100%;
+            display: block;
+        }
+        h2:hover a{
+            color: gray;
+        }
+        ul{
+            margin: 0px;
+            padding: 0px;
+        }
+        ul li{
+            list-style: none;
+            background: lightgray;
+            display: block;     
+            margin-bottom: 0px;      
+        }
+        .collapse{
+            display: none;
+        }
+        .expanded{
+            display: block;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Captains of the Enterprise</h1>
+        <ul class="accordion">
+            <li id="archer">
+                <h2><a href="#">Jonathan Archer</a></h2>
+                <p>Vessel registry: NX-01</p>
+                <p>Assumed Command: 2151</p>
+                <div class="links">
+                    <h3>Profiles</h3>
+                    <ul>
+                        <li><a href="...">Memory Alpha</a></li>
+                        <li><a href="...">Wikipedia</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li id="pike">
+                <h2><a href="#">Kristopher Pike</a></h2>
+                <p>Vessel registry: NCC-1701</p>
+                <p>Assumed Command: 2245</p>
+                <div class="links">
+                    <h3>Profiles</h3>
+                    <ul>
+                        <li><a href="...">Memory Alpha</a></li>
+                        <li><a href="...">Wikipedia</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li id="james">
+                <h2><a href="#">James T. Kirk</a></h2>
+                <p>Vessel registry: NCC-1701</p>
+                <p>Assumed Command: 2245</p>
+                <div class="links">
+                    <h3>Profiles</h3>
+                    <ul>
+                        <li><a href="...">Memory Alpha</a></li>
+                        <li><a href="...">Wikipedia</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        
+    </div>
+    <script>
+        function init(){
+            var accordions = document.getElementsByClassName('accordion'); // Pega todos elementos com a classe accordion
+            contrairTodos(accordions); // Manda a lista do elemenntos para a função
+            //console.log(accordions);
+        }
+
+        function contrair(item){
+             item.classList.remove("expanded");
+             item.classList.add("collapsed");
+        }
+        function expadir(item){
+            item.classList.remove("collapsed");
+            item.classList.add("expanded");
+        }
+        function clicou(event){
+            event.preventDefault(); // Impede o efeito do link de sair
+            console.log(this); // Mostra o elemento que foi clicado (o titulo nome)
+        }   
+
+        // Quando focar com teclado o item escondido ele ira apareccer para os leitores de tela
+        function focou(event){
+            event.preventDefault();
+            var element = this; // pega o elemento link a
+            //console.log(element.parentNode); // pega elemento pai
+            //console.log("focou: "+ this.text); 
+            console.log(element); 
+
+            while (element.parentNode) { // enquanto o elemento tiver elementos pais faça
+                var pai = element.parentNode;
+                // Verifica se o pai tem a classe accordion
+                if(pai.classList.contains("accordion")){
+                    expadir(element); // caso tenha essa classe, chama a função expandir, e insere a classa expanded no elemento li
+                    return;
+                }
+                element = element.parentNode; // classe 1 pai, 2 avo, 3 etc
+                //console.log("Classe pai: "); 
+                //console.log(element); 
+                
+            } 
+              
+        }
+
+        function contrairTodos(itens){
+            // Percorre os itens da lista(que tem acordion)
+            for (let i = 0; i < itens.length; i++) { // Percorre [0] primeira ul
+                var item = itens[i].childNodes; // recebe primera ul e seus filhos
+
+                // Percorre os elementos dentro de ul as li
+                for (let j = 0; j < item.length; j++) {
+                    if(item[j].nodeType == 1){ // verifica se o item e um elemento (nodeType == 1)
+                
+                        contrair(item[j]);
+                        var links = item[j].getElementsByTagName("a");// Pega todos links
+                        var titulos = links[0]; // Pega o primeiro link de cada li (o título com nome)
+
+                        titulos.addEventListener("click", clicou, false); // Quando o titulo for clicado chama a função clicou
+
+                        for (let k = 0; k < links.length; k++) {
+                            links[k].addEventListener("focus", focou, false); // Quando o item for focado(TAB) chama função focou
+                            
+                        }
+                    }
+                    
+                }
+
+                if (location.hash.length > 1) { // verifica se o item tem # id
+                    var ativo = document.getElementById(location.hash.substring(1)); // substring resgata o valor
+                    console.log("ativo #: "+ativo);
+                }else{
+                    console.log("Inativo #: "+ativo);
+                }
+            }
+        }
+        // nodeType
+        // Se o nó é um nó de elemento, a propriedade nodeType retornará 1.
+        // Se o nó é um nó de atributo, a propriedade nodeType retornará 2.
+        // Se o nó é um nó de texto, a propriedade nodeType retornará 3.
+        // Se o nó é um nó de comentário, a propriedade nodeType voltará 8.
+
+        init();
+
+    </script>
+</body>
+</html>
