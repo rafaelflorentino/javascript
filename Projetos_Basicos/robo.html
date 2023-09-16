@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #robo{
+            width: 234px;
+            height: 244px;  
+            background-image: url(imagem/imagem.jpg);
+            background-repeat: no-repeat;
+            background-position: 0 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>teste</h1>
+    <div id="robo">
+
+    </div>
+
+    <button id="start">Start</button>
+    <script>
+       
+        var img = document.getElementById("robo");
+        var frameWidth = 0;
+        var frames = 1;
+
+        var x= 0;
+        var start = document.getElementById("start");
+        start.onclick=function(){
+            frameWidth+=244;
+            var img = document.getElementById("robo");
+            img.style.backgroundPosition=-frameWidth+"px";
+        };
+
+        setTimeout(function(){
+            frameWidth+=244;
+            var img = document.getElementById("robo");
+            img.style.backgroundPosition=-frameWidth+"px";
+            console.log("texto");
+        },2000); 
+
+        
+        
+
+        
+    </script>
+</body>
+</html>
