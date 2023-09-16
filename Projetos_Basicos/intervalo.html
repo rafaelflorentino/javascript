@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <script>
+        var single = "just single quotes \"hide\" ";
+        // alert(single);
+
+        console.log("Teste");
+
+        // Objeto Pessoa
+        var Pessoa = new Object();
+        Pessoa.nome="Rafael"; 
+        Pessoa.idade=20;
+
+        Pessoa.falar = function(){
+            alert("Estou falando");
+        };
+
+        // Objeto robo
+        var Robo = {
+            metal: "Titanium",
+            kill: function(){
+                alert('Kill humans!');
+            }
+        };
+        // Core.start(Robo); // biblioteca permite acessar meto start onde a função so e executada quando o arquivo html e todo carregado.
+
+        // SetTimeout
+        //setTimeout("alert('Valeu a espera?');", 1000); // alerta dentro de string para não ser ativado na hora so depois de 1 segundo(mil milesegundos)
+    
+        function periscope(){
+            //var message = "Prepare-se para pousar"; // Settimeout Não acessa variável local so global
+            message = "Prepare-se para pousar"; // variável solta, global
+            setTimeout("alert(message);", 2000);
+        }
+        //periscope();
+
+        // formato Clousure, da acesso as variáveis locais
+        function scope(){
+            var texto = "Prepare-se para ...";
+            setTimeout(function(){alert(texto);},2000); // Settimeout, primeiro recebe uma string texto, depois o tempo em milisegundos
+            
+        }
+        //scope();
+
+        //clearTimeout(); impede a contagem, e que o setTmeout seja executado
+
+        var start = document.getElementById("start");
+        start.onclick=function(){
+            timer = setTimeout("alert('Lançado')",2000);
+        };
+
+        var stop = document.getElementById("stop");
+        stop.onclick=function(){
+            clearTimeout(timer); // para o cronometro do timeout
+        };
+
+        // setInterval
+        var tempo = setInterval("alert('Repitindo varias vezes')", 3000); // repede esse trecho de codigo a cada 3 segundos infinitamente
+
+        //clearInterval(tempo); // para o set Interval
+
+        var Android = {
+            inicio : function (){
+                console.log("TTTTT");
+            }
+        }
+    
+    </script>
+    
+</body>
+</html>
