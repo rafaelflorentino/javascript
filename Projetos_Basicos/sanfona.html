@@ -42,11 +42,20 @@
             display: block;     
             margin-bottom: 0px;      
         }
-        .collapse{
-            display: none;
+
+        ul.accordion li.collapsed *{
+            /* display: none; */
+            position: absolute;
+            left: -1000000px;
         }
-        .expanded{
-            display: block;
+        ul.accordion li.collapsed h2, ul .accordion li.expanded h2,
+        ul.accordion li.collapsed h2 a:link,
+        ul.accordion li.collapsed h2 a:visited,
+        ul.accordion li.expanded h2 a:link,
+        ul.accordion li.expanded h2 a:visited{
+            /* display: block; */
+            position: static;
+
         }
 
     </style>
@@ -110,8 +119,19 @@
             item.classList.add("expanded");
         }
         function clicou(event){
-            event.preventDefault(); // Impede o efeito do link de sair
-            console.log(this); // Mostra o elemento que foi clicado (o titulo nome)
+           console.log(this); // Mostra o elemento que foi clicado (o titulo nome)
+           var fold = this.parentNode.parentNode;
+           console.log(fold); 
+
+           if(fold.classList.contains("collapse")){
+            console.log("tem collapse vou expandir");
+                expandir(fold);
+           }
+           else if(fold.classList.contains("expanded")){
+            console.log("tem expanded vou contrair");
+                contrair(fold);
+           }
+           event.preventDefault(); // Impede o efeito do link de sair 
         }   
 
         // Quando focar com teclado o item escondido ele ira apareccer para os leitores de tela
@@ -132,9 +152,7 @@
                 element = element.parentNode; // classe 1 pai, 2 avo, 3 etc
                 //console.log("Classe pai: "); 
                 //console.log(element); 
-                
             } 
-              
         }
 
         function contrairTodos(itens){
@@ -162,9 +180,11 @@
 
                 if (location.hash.length > 1) { // verifica se o item tem # id
                     var ativo = document.getElementById(location.hash.substring(1)); // substring resgata o valor
-                    console.log("ativo #: "+ativo);
-                }else{
-                    console.log("Inativo #: "+ativo);
+                    //console.log("ativo #: "+ativo);
+                    var activeFold= document.getElementById(location.hash.substgring(1));
+                    if(activeFold && activeFold.parentNode == itens[i]){
+                        expandir(activeFold);
+                    }
                 }
             }
         }
