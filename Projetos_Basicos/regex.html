@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <form action="">
+        <label for="nome"></label><input name="nome" type="text">
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        // Regex
+        function verifica(){
+            var partener = new RegExp("^") + theClass + "(|$))";
+            if(partener.teste(target.className)){
+                return true;
+            }
+            return false
+
+            var requerido = /./; // . qualquer caractere menos quebra de linha /r /n
+            var requeridoSemEspaco = /\S/; // \S qualquer caractere que não seja espaço em branco
+            var inteiroPositivo = /^\d*[1-9]\d*$/; // /^ = inicio da regex; $/ = fim da regex; \d = Qualquer digito[0-9]; * = caractere anterior deve aparecer zero ou mais vezes
+            var inteiroPositivoOuZero = /^\d+$/;// + = Exige que o caractere anterior apareça 1 ou mais vezes
+            var inteiro = /^-?\d+$/; // ?= caracter anterior opcional; - = numero negativo;
+            var decimal = /^-?\d+(\.\d+)?$/;// () = grupo de caracteres que devem ocorrer juntos
+            var email = /^[\w\.\-]+@([\w\-]+\.)+[a-zA-z]+$/;// [] = classe de caracter, um dos que estao dentro da lista; /w = qualquer palavra, pode numero
+        }
+
+        function procuraForm(){
+            var forms = document.getElementsByTagName("form");
+
+            for (var i = 0; i < forms.length; i++){
+                window.addEventListener("submit",validar(),false)
+            }
+        }
+
+        function validar(){
+            var fields = this.elements;
+
+            for (var i = 0; i < fields.length; i++){
+                var className = fields[i].className;
+                varclassRegExp = /(^| )(\S+)\b/g; // \b = scape, limite de palavra; | = faz expressão regular corresponder a um padrão
+                var classResult;
+
+                while(classResult = clasRegExp.exec(className)){
+                    var oneClass = classResult[2];
+                    var rule = validar([oneClass]);
+                    if (typeof rule != "undefined"){
+                        if (!rule.test(field[i].value)) {
+                            fields[i].focus();
+                            alert("Erros");
+                            event.preventDefault;
+                            return;
+                        }
+                        
+                    }
+
+                }
+            }
+        }
+    
+    </script>
+    
+</body>
+</html>
