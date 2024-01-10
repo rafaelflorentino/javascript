@@ -1,0 +1,30 @@
+<h1>Sessão</h1>
+<div id="lista-sessao">
+
+</div>
+
+<script>
+    // lista elementos da sessão na tela
+
+    // Verificando se a sessionStorage não está vazia
+    if (sessionStorage.length > 0) {
+
+        // Obtendo a referência ao elemento onde a lista será exibida
+        var listaElemento = document.getElementById('content');
+
+        // Iterando sobre os itens da sessionStorage e exibindo em parágrafos
+        for (var i = 0; i < sessionStorage.length; i++) {
+            var chave = sessionStorage.key(i);
+            var valor = sessionStorage.getItem(chave);
+
+            // Criando um novo parágrafo para cada elemento
+            var paragrafo = document.createElement('p');
+            paragrafo.textContent = chave + ': ' + valor;
+
+            // Adicionando o parágrafo à listaElemento
+            listaElemento.appendChild(paragrafo);
+        }
+    } else {
+        console.log('sessionStorage está vazia.');
+    }
+</script>

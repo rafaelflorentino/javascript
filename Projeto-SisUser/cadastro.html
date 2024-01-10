@@ -1,0 +1,59 @@
+<h1>Cadastro</h1>
+
+<div class="form">
+    <form action="#">
+        <div class="input-group">
+            <div class="input-box">
+                <label for="nome">Nome </label>
+                <input id="nome" type="text" name="nome" placeholder="Digite seu primeiro nome" required>
+            </div>
+            <div class="input-box">
+                <label for="sobrenome">Sobrenome </label>
+                <input id="sobrenome" type="text" name="sobrenome" placeholder="Digite seu sobrenome" required>
+            </div>
+            <div class="input-box">
+                <label for="telefone">Telefone </label>
+                <input id="telefone" type="text" name="telefone" placeholder="(xx) xxxxx-xxxx " required>
+            </div>
+            <div class="input-box">
+                <label for="cpf">CPF </label>
+                <input id="cpf" type="text" name="cpf" placeholder="Digite seu CPF" required>
+            </div>
+            <div class="input-box">
+                <label for="email">E-mail </label>
+                <input id="email" type="email" name="email" placeholder="Digite seu e-mail" required>
+            </div>
+            <div class="input-box">
+                <label for="nascimento">Data de nascimento</label>
+                <input id="nascimento" type="date" name="nascimento" placeholder="xx/xx/xxxx" required>
+            </div>
+            <div class="input-box">
+                <label for="senha">Senha </label>
+                <input id="senha" type="password" name="senha" placeholder="Digite sua senha" required>
+            </div>
+            <div class="input-box">
+                <label for="conf-senha">Confirme sua senha</label>
+                <input id="conf-senha" type="password" name="conf-senha" placeholder="Digite sua senha" required>
+            </div>
+            
+            <div class="gender-group">
+                <h5>Digite seu género</h5>
+                <input id="feminino" type="radio" name="genero">
+                <label for="feminino">Feminino</label>
+
+                <input id="masculino" type="radio" name="genero">
+                <label for="masculino">Masculino</label>
+
+                <input id="outro" type="radio" name="genero"> 
+                <label for="outro">Outro</label>
+            </div>
+            <div class="input-box">
+                <label for="foto">Foto </label>
+                <input type="file" id="foto" name="foto">
+            </div>
+        </div>   
+        <div class="container-botao">
+            <button id="btn-cadastrar" onclick="cadastrar(event)">Cadastrar</button>
+        </div>               
+    </form>
+</div>
