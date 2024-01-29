@@ -1,3 +1,4 @@
+
     /* Escutar botões clicados e chamar metodo ajax*/
 
     var btnCadastro = document.getElementById("cadastro");
@@ -11,6 +12,8 @@
 
     var btnSessao = document.getElementById("sessao");
     btnSessao.addEventListener("click", () =>  carregarNovoConteudo("sessao.html"), false);
+
+
 
     /* Fim escuta botões */
 
@@ -30,12 +33,17 @@
    
     /* Fim função AJAX */
 
+
     /* Pegar informações do formulário */
 
     var btnCadastrar = document.getElementById("btn-cadastra");
 
     function cadastrar(event) {
+
+        // Impede a pagina de carregar
         event.preventDefault();
+
+        // Salvando valores em variáveis
         let nome = document.querySelector("#nome").value;
         let sobrenome = document.querySelector("#sobrenome").value;
         let telefone = document.querySelector("#telefone").value;
@@ -43,25 +51,9 @@
         let email = document.querySelector("#email").value;
         let nascimento = document.querySelector("#nascimento").value;
         let senha = document.querySelector("#senha").value;
-        let conSenha = document.querySelector("#conf-senha").value;
+        let confSenha = document.querySelector("#conf-senha").value;
         //let genero = document.querySelector("#genero").value;
         let foto = document.querySelector("#foto").value;
-
-        sessionStorage.setItem('nome', nome);
-        sessionStorage.setItem('sobrenome', sobrenome);
-        sessionStorage.setItem('telefone', telefone);
-        sessionStorage.setItem('cpf', cpf);
-        sessionStorage.setItem('email', email);
-        sessionStorage.setItem('nascimento', nascimento);
-        sessionStorage.setItem('senha', senha);
-        sessionStorage.setItem('conSenha', conSenha);
-        //sessionStorage.setItem('genero', genero);
-        sessionStorage.setItem('foto', foto);
-
-
-        var valorRecuperado = sessionStorage.getItem('nome');
-        console.log("Valor recuperado da sessão:", valorRecuperado);
-   
 
         // Validar campos vázios
 
@@ -75,33 +67,179 @@
             document.querySelector("#nome").value="";
             document.querySelector("#senha").value="";
 
-            }    
+        }  
+
+        // Chamando funcões
+
+        criarObjeto(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
+
+        criarSessao(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
+    
+        criarPessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);            
              
-        }       
+    }   
+        
+        
+    function criarObjeto(name, surname, telephone, cpf, email, birth, password, confPassword, Photograph){
+            
+        // Criando um objeto
+        const objeto = {
+            nome: name,
+            sobrenome: surname,
+            telefone: telephone,
+            cpf : cpf,
+            email : email,
+            nascimento : birth,
+            senha : password,
+            confSenha : confPassword,
+            //genero : genero,
+            foto : Photograph         
+        }; 
 
+            console.log('objeto criado: ');
+            console.log(objeto);
+            criaJson(objeto);
+    }
+    
+    
+    function criaJson(objeto){
+        
+        // Converter o objeto para uma string JSON
+        const dadosJSON = JSON.stringify(objeto, null, 2); // O terceiro argumento (2) adiciona espaçamento para melhor legibilidade
+        console.log("Criando Json:");
+        console.log(dadosJSON);
+    }
+
+    function lerJson() {
+        // Caminho do arquivo JSON
+        const caminhoArquivo = 'js/arquivoJson.json';
+    
+        // Usando fetch para carregar o arquivo JSON
+        fetch(caminhoArquivo)
+            .then(response => {
+                // Verifica se a resposta está OK (código 200)
+                if (!response.ok) {
+                    throw new Error(`Erro ao carregar o arquivo JSON. Código de resposta: ${response.status}`);
+                }
+                return response.json(); // Converte a resposta para JSON
+            })
+            .then(data => {
+                console.log('Dados do arquivo JSON:', data);
+    
+                // Agora você pode manipular os dados como um objeto JavaScript
+                // Exemplo: exibindo os dados em uma janela de alerta
+                alert(`Nome: ${data.nome}, sobrenome: ${data.sobrenome}`);
+
+                var listaJson = document.getElementById('lista-json');
+                
+                // Criando um novo parágrafo para cada elemento
+                var paragrafo = document.createElement('p');
+                paragrafo.textContent = `Nome: ${data.nome}, sobrenome: ${data.sobrenome}`;
+                
+                // Adicionando o parágrafo à listaElemento
+                listaJson.appendChild(paragrafo);
+            })
+            .catch(error => {
+                console.error('Erro durante a leitura do arquivo JSON:', error);
+            });
+    }
+
+    function criarSessao(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto){
+
+             // Criando uma sessão e salvando os dados nela
+             sessionStorage.setItem('nome', nome);
+             sessionStorage.setItem('sobrenome', sobrenome);
+             sessionStorage.setItem('telefone', telefone);
+             sessionStorage.setItem('cpf', cpf);
+             sessionStorage.setItem('email', email);
+             sessionStorage.setItem('nascimento', nascimento);
+             sessionStorage.setItem('senha', senha);
+             sessionStorage.setItem('confSenha', confSenha);
+             //sessionStorage.setItem('genero', genero);
+             sessionStorage.setItem('foto', foto);
+     
+             recuperaSessao();
+    }
+
+    function recuperaSessao(){
+        // Pegando valores da sessão
+        var nomeSessao = sessionStorage.getItem('nome');
+        var sobrenomeSessao = sessionStorage.getItem('sobrenome');
+        var telefoneSessao = sessionStorage.getItem('telefone');
+        var cpfSessao = sessionStorage.getItem('cpf');
+        var emailSessao = sessionStorage.getItem('email');
+        var nascimentoSessao = sessionStorage.getItem('nascimento');
+        var senhaSessao = sessionStorage.getItem('senha');
+        var confSenhaSessao = sessionStorage.getItem('confSenha');
+        var fotoSessao = sessionStorage.getItem('foto');
+        console.log("Nome recuperado da sessão:", nomeSessao);  
+        console.log("sobrenome recuperado da sessão:", sobrenomeSessao); 
+        console.log("telefone recuperado da sessão:", telefoneSessao); 
+        console.log("cpf recuperado da sessão:", cpfSessao); 
+        console.log("email recuperado da sessão:", emailSessao); 
+        console.log("nascimento recuperado da sessão:", nascimentoSessao); 
+        console.log("senha recuperado da sessão:", senhaSessao); 
+        console.log("confSenha recuperado da sessão:", confSenhaSessao); 
+        console.log("foto recuperado da sessão:", fotoSessao);      
+    }
+
+    function criarPessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto){
+
+        // Criando um objeto pessoa e salvando dados nela
+        const pessoa = new Pessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
+        console.log("Criando pessoa:");  
+        console.log(pessoa);       
+          
+    }
+    
+        
     // lista elementos a sessão na tela
-
+    function carregarLista(){
+            
         // Verificando se a sessionStorage não está vazia
         if (sessionStorage.length > 0) {
 
-                // Obtendo a referência ao elemento onde a lista será exibida
-                var listaElemento = document.getElementById('content');
+            // Obtendo a referência ao elemento onde a lista será exibida
+            var listaElemento = document.getElementById('lista-sessao');
 
-                // Iterando sobre os itens da sessionStorage e exibindo em parágrafos
-                for (var i = 0; i < sessionStorage.length; i++) {
-                    var chave = sessionStorage.key(i);
-                    var valor = sessionStorage.getItem(chave);
+            // Iterando sobre os itens da sessionStorage e exibindo em parágrafos
+            for (var i = 0; i < sessionStorage.length; i++) {
+                var chave = sessionStorage.key(i);
+                var valor = sessionStorage.getItem(chave);
+                console.log(chave, valor);
 
-                    // Criando um novo parágrafo para cada elemento
-                    var paragrafo = document.createElement('p');
-                    paragrafo.textContent = chave + ': ' + valor;
+                // Criando um novo parágrafo para cada elemento
+                var paragrafo = document.createElement('p');
+                paragrafo.textContent = chave + ': ' + valor;
 
-                    // Adicionando o parágrafo à listaElemento
-                    listaElemento.appendChild(paragrafo);
-                }
+                // Adicionando o parágrafo à listaElemento
+                listaElemento.appendChild(paragrafo);
+
+                
+            }
         } else {
             console.log('sessionStorage está vazia.');
         }
+    }
+
+
+
+        // Criando classe Pessoa para salvar os dados
+    class Pessoa{
+        constructor(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto){
+            this._nome = nome;
+            this._sobrenome = sobrenome;
+            this._telefone = telefone;
+            this._cpf = cpf;
+            this._email = email;
+            this._nascimento = nascimento;
+            this._senha = senha;
+            this._confSenha = confSenha;
+            this._foto = foto;
+        }       
+        
+    }
+  
 
 
 
