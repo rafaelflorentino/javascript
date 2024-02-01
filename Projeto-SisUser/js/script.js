@@ -13,9 +13,9 @@
     var btnSessao = document.getElementById("sessao");
     btnSessao.addEventListener("click", () =>  carregarNovoConteudo("sessao.html"), false);
 
-
-
     /* Fim escuta botões */
+
+    let usuarios = [];
 
 
     /* Função AJAX para carregar conteudo html externo no index */
@@ -54,6 +54,13 @@
         let confSenha = document.querySelector("#conf-senha").value;
         //let genero = document.querySelector("#genero").value;
         let foto = document.querySelector("#foto").value;
+
+        // salvando dados na array
+
+        let registro = new Pessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
+        usuarios.push(registro); 
+
+        //gravarArquivo(registro);
 
         // Validar campos vázios
 
@@ -125,27 +132,44 @@
             })
             .then(data => {
                 console.log('Dados do arquivo JSON:', data);
-    
-                // Agora você pode manipular os dados como um objeto JavaScript
-                // Exemplo: exibindo os dados em uma janela de alerta
-                alert(`Nome: ${data.nome}, sobrenome: ${data.sobrenome}`);
 
-                var listaJson = document.getElementById('lista-json');
+                for(let i=0; i<data.length; i++){
+
+                    var listaJson = document.getElementById('lista-json');
+                    
+                    // Criando um novo parágrafo para cada elemento
+                    var paragrafo = document.createElement('p');
+                    paragrafo.textContent = `Nome: ${data[i].nome}, sobrenome: ${data[i].sobrenome}`;
+                    
+                    // Adicionando o parágrafo à listaElemento
+                    listaJson.appendChild(paragrafo);
                 
-                // Criando um novo parágrafo para cada elemento
-                var paragrafo = document.createElement('p');
-                paragrafo.textContent = `Nome: ${data.nome}, sobrenome: ${data.sobrenome}`;
-                
-                // Adicionando o parágrafo à listaElemento
-                listaJson.appendChild(paragrafo);
+                }
+    
+              
             })
             .catch(error => {
                 console.error('Erro durante a leitura do arquivo JSON:', error);
             });
     }
 
+
+
     function criarSessao(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto){
 
+        // Verificar se o sessionStorage já tem a chave 'pessoas'
+        if (sessionStorage.getItem('pessoas')) {
+
+            // Se já existe, recuperar os dados, adicionar o novo objeto e salvar novamente
+            const pessoas = JSON.parse(sessionStorage.getItem('pessoas'));
+            pessoas.push({ nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto });
+            sessionStorage.setItem('pessoas', JSON.stringify(pessoas));
+        } else {
+            // Se não existe, criar um novo array com o objeto e salvar
+            const pessoas = [{ nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto }];
+            sessionStorage.setItem('pessoas', JSON.stringify(pessoas));
+        }        
+/*
              // Criando uma sessão e salvando os dados nela
              sessionStorage.setItem('nome', nome);
              sessionStorage.setItem('sobrenome', sobrenome);
@@ -157,9 +181,26 @@
              sessionStorage.setItem('confSenha', confSenha);
              //sessionStorage.setItem('genero', genero);
              sessionStorage.setItem('foto', foto);
-     
              recuperaSessao();
+ */    
+             
     }
+
+    function exibirPessoas() {
+        const listaPessoas = document.getElementById('listaPessoas');
+        listaPessoas.innerHTML = ''; // Limpar a lista
+      
+        // Obter os dados do sessionStorage
+        const pessoas = JSON.parse(sessionStorage.getItem('pessoas')) || [];
+      
+        // Exibir os dados na lista
+        pessoas.forEach(pessoa => {
+          const itemLista = document.createElement('li');
+          itemLista.textContent = `Nome: ${pessoa.nome}, Sobrenome: ${pessoa.sobrenome}`;
+          listaPessoas.appendChild(itemLista);
+          console.log(pessoa);
+        });
+      }
 
     function recuperaSessao(){
         // Pegando valores da sessão
@@ -186,9 +227,10 @@
     function criarPessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto){
 
         // Criando um objeto pessoa e salvando dados nela
-        const pessoa = new Pessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
+        let pessoa = new Pessoa(nome, sobrenome, telefone, cpf, email, nascimento, senha, confSenha, foto);
         console.log("Criando pessoa:");  
-        console.log(pessoa);       
+        console.log(pessoa);  
+
           
     }
     

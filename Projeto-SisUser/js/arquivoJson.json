@@ -1,4 +1,5 @@
-{
+[
+  {
     "nome": "ana",
     "sobrenome": "lucia",
     "telefone": "4435345",
@@ -8,4 +9,28 @@
     "senha": "123",
     "confSenha": "123",
     "foto": ""
+  },
+  {
+    "nome": "pedro",
+    "sobrenome": "henrique",
+    "telefone": "345435",
+    "cpf": "56557878768768",
+    "email": "pedro@outlook.com",
+    "nascimento": "2021-02-11",
+    "senha": "456",
+    "confSenha": "456",
+    "foto": ""
   }
+  ,
+  {
+    "nome": "maria",
+    "sobrenome": "madalena",
+    "telefone": "46345",
+    "cpf": "645745676",
+    "email": "madalena@outlook.com",
+    "nascimento": "2011-02-11",
+    "senha": "123a",
+    "confSenha": "123a",
+    "foto": ""
+  }
+]
